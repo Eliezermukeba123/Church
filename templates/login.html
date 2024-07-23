@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block content %}
+
+<body class="flex items-center justify-center min-h-screen" style="background-image: url('static/img/background.jpeg'); /* Remplacez par le chemin de votre image */
+background-size: cover;
+background-position: center;">
+    <div class="shadow-lg  overflow-hidden flex flex-col md:flex-row w-full max-w-4xl">
+        <!-- Logo Section -->
+        <div class="p-8 flex flex-col md:rounded-l-3xl  items-center justify-center md:w-1/2 text-white" style="background-image: url('static/img/croix.jpeg'); position :relative; /* Remplacez par le chemin de votre image */
+        background-size: cover;
+        background-position: center;">
+            <div
+                class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#00FFFB] to-gray-900 md:rounded-l-3xl opacity-85">
+            </div>
+
+            <div class="relative mt-12 flex flex-col items-center justify-center text-center  z-index-2">
+                <img src="static/img/logo-white.png" alt="Logo" class="w-32 md:w-40 h-28 md:h-32">
+                <h2 class="text-white Atta  font-bold center text-5xl sm:text-7xl">
+                    Atta-El-Roï</h2>
+                <h2 class="text-white text-2xl sm:text-3xl Tabernacle">Tabernacle</h2>
+            </div>
+        </div>
+        <!-- Form Section -->
+        <div class="p-8 md:w-1/2  bg-gray-100">
+            <h2 class="text-black text-3xl sm:text-4xl font-bold Tabernacle  text-center mb-6">Se Connecter</h2>
+            <div class="w-full px-2 sm:px-2 md:px-2">
+                <form method="POST">
+                    <div class="w-full">
+                        <div class="mb-1 text-gray-100">
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div role="alert" class="mb-1">
+                                <div class="bg-white-100 px-1 py-1 text-red-700">
+                                    <p>{{ message|safe|escape }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group mb-4">
+                            <label for="{{ field.id_for_label }}" class="text-gray-700 ">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit"
+                            class="flex items-center font-bold justify-center Connexion w-full sm:w-1/2 mx-auto mt-4 rounded-2xl py-2 text-gray-100 hover:bg-red-900">
+                            Connexion
+                        </button>
+
+                        <p class="text-left text-gray-500 text-sm sm:text-base mt-4">
+                            <a href="#" class="text-blue-500 hover:underline">
+                                Avez-vous oublié votre mot de passe?
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,43 @@
+.bg-gradient-centered {
+  background: linear-gradient(
+    #000000,
+    #00fffb
+  );
+}
+
+.Tabernacle{
+  font-family: "Lobster", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+.Atta {
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+
+}
+
+.Connexion {
+  background-color : #0fd4f5;
+
+}
+.select {
+  background-color : #00acc1;
+
+}
+.aside {
+  color : #00acc1;
+
+
+}
+
+.TextNav {
+font-family: "Roboto Slab", serif;
+}
+
+bg-custom {
+            background-image: url('static/img/croix.jpeg');
+            background-size: cover; /* Ajuste l'image pour couvrir toute la div */
+            background-position: center; /* Centre l'image */
+ }

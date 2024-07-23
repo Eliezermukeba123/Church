@@ -1,0 +1,414 @@
+{% extends 'base.html'  %}
+{% block title %}
+Page d'acceuil
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/diacre/asise.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/diacre/nav.html' %}
+        <!-- Main -->
+    <div class="h-full overflow-hidden">
+      <main id="dashboard-main" class="h-[calc(100vh-10rem)] overflow-auto px-4 py-10">
+        <!-- Put your content inside of the <main/> tag -->
+          <div class="bg-gray-100">
+          <div class="grid grid-cols-1 py-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 m-4 ">
+              <div class=" relative rounded-xl bg-white p-10 shadow-md">
+                  <div class="absolute top-2 left-2">
+                            <!-- Icône en haut à gauche -->
+                              <div class="flex flex-row space-x-2">
+                                  <i class="fa-solid fa-users fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
+                              <h1 class="font-serif">Total Menbres</h1>
+                              </div>
+
+
+
+                          </div>
+                  <div class="flex items-center justify-center">
+                            <!-- Nombre au milieu -->
+                            <span class="text-2xl font-bold font-sans">{{membres}}</span>
+                          </div>
+
+
+              </div>
+              <div class=" relative rounded-xl bg-white p-10 shadow-md">
+                  <div class="absolute top-2 left-2">
+                            <!-- Icône en haut à gauche -->
+                              <div class="flex flex-row space-x-2">
+
+                                  <i class="fa-solid fa-calendar-days fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
+                              <h1 class="font-serif">Evénements du mois</h1>
+                              </div>
+
+
+
+                          </div>
+                  <div class="flex items-center justify-center">
+                            <!-- Nombre au milieu -->
+                            <span class="text-2xl font-bold font-sans">{{events}}</span>
+                          </div>
+
+              </div>
+
+
+            </div>
+          <div class="flex   flex-wrap gap-x-4 gap-y-4 m-4">
+               <div class=" lg:w-96 rounded-xl bg-white p-10 shadow-md md:w-full sm:w-full">
+
+
+                   <div class="p-4">
+  <div class="flex flex-col justify-center items-center h-[300px]">
+    <div id="hs-pie-chart" data-series-homme="{{pourcentage_homme}}"
+     data-series-femme="{{pourcentage_femme}}" ></div>
+
+    <!-- Legend Indicator -->
+    <div class="flex justify-center sm:justify-end items-center gap-x-4 mt-3 sm:mt-6">
+      <div class="inline-flex items-center">
+        <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+        <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+          Hommes
+        </span>
+      </div>
+      <div class="inline-flex items-center">
+        <span class="size-2.5 inline-block bg-cyan-500 rounded-sm me-2"></span>
+        <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+          Femmes
+        </span>
+      </div>
+   <!--   <div class="inline-flex items-center">
+        <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
+        <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+          Others
+        </span>
+      </div>-->
+    </div>
+    <!-- End Legend Indicator -->
+  </div>
+</div>
+
+
+               </div>
+               <div class=" lg:w-3/5 rounded-xl bg-white p-10 shadow-md sm:w-full  md:w-full">
+                   <!-- Legend Indicator -->
+<div class="flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6 ">
+  <div class="inline-flex items-center">
+    <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+      Income
+    </span>
+  </div>
+  <div class="inline-flex items-center">
+    <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
+    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+      Outcome
+    </span>
+  </div>
+</div>
+<!-- End Legend Indicator -->
+
+<div id="hs-multiple-bar-charts"></div>
+               </div>
+               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+          </div>
+     </div>
+      </main>
+    </div>
+    <!-- /Main -->
+        {% include 'includes/footer.html' %}
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="https://preline.co/assets/js/hs-apexcharts-helpers.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    // Apex Multiple Bar Charts
+    (function () {
+      buildChart('#hs-multiple-bar-charts', (mode) => ({
+        chart: {
+          type: 'bar',
+          height: 300,
+          toolbar: {
+            show: false
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        series: [
+          {
+            name: 'Income',
+            data: [23000, 44000, 55000, 57000, 56000, 61000, 58000, 63000, 60000, 66000, 34000, 78000]
+          }, {
+            name: 'Outcome',
+            data: [17000, 76000, 85000, 101000, 98000, 87000, 105000, 91000, 114000, 94000, 67000, 66000]
+          }
+        ],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '16px',
+            borderRadius: 0
+          }
+        },
+        legend: {
+          show: false
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 8,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+          ],
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          crosshairs: {
+            show: false
+          },
+          labels: {
+            style: {
+              colors: '#9ca3af',
+              fontSize: '13px',
+              fontFamily: 'Inter, ui-sans-serif',
+              fontWeight: 400
+            },
+            offsetX: -2,
+            formatter: (title) => title.slice(0, 3)
+          }
+        },
+        yaxis: {
+          labels: {
+            align: 'left',
+            minWidth: 0,
+            maxWidth: 140,
+            style: {
+              colors: '#9ca3af',
+              fontSize: '13px',
+              fontFamily: 'Inter, ui-sans-serif',
+              fontWeight: 400
+            },
+            formatter: (value) => value >= 1000 ? `${value / 1000}k` : value
+          }
+        },
+        states: {
+          hover: {
+            filter: {
+              type: 'darken',
+              value: 0.9
+            }
+          }
+        },
+        tooltip: {
+          y: {
+            formatter: (value) => `$${value >= 1000 ? `${value / 1000}k` : value}`
+          },
+          custom: function (props) {
+            const { categories } = props.ctx.opts.xaxis;
+            const { dataPointIndex } = props;
+            const title = categories[dataPointIndex];
+            const newTitle = `${title}`;
+
+            return buildTooltip(props, {
+              title: newTitle,
+              mode,
+              hasTextLabel: true,
+              wrapperExtClasses: 'min-w-28',
+              labelDivider: ':',
+              labelExtClasses: 'ms-2'
+            });
+          }
+        },
+        responsive: [{
+          breakpoint: 568,
+          options: {
+            chart: {
+              height: 300
+            },
+            plotOptions: {
+              bar: {
+                columnWidth: '14px'
+              }
+            },
+            stroke: {
+              width: 8
+            },
+            labels: {
+              style: {
+                colors: '#9ca3af',
+                fontSize: '11px',
+                fontFamily: 'Inter, ui-sans-serif',
+                fontWeight: 400
+              },
+              offsetX: -2,
+              formatter: (title) => title.slice(0, 3)
+            },
+            yaxis: {
+              labels: {
+                align: 'left',
+                minWidth: 0,
+                maxWidth: 140,
+                style: {
+                  colors: '#9ca3af',
+                  fontSize: '11px',
+                  fontFamily: 'Inter, ui-sans-serif',
+                  fontWeight: 400
+                },
+                formatter: (value) => value >= 1000 ? `${value / 1000}k` : value
+              }
+            },
+          },
+        }]
+      }), {
+        colors: ['#2563eb', '#d1d5db'],
+        xaxis: {
+          labels: {
+            style: {
+              colors: '#9ca3af',
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: '#9ca3af'
+            }
+          }
+        },
+        grid: {
+          borderColor: '#e5e7eb'
+        }
+      }, {
+        colors: ['#737373', '#2563eb'],
+        xaxis: {
+          labels: {
+            style: {
+              colors: '#a3a3a3',
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: '#a3a3a3'
+            }
+          }
+        },
+        grid: {
+          borderColor: '#404040'
+        }
+      });
+    })();
+  });
+</script>
+<script>
+  window.addEventListener('load', () => {
+    // Apex Pie Chart
+    (function () {
+    const chartElement = document.getElementById('hs-pie-chart');
+    const seriesHomme = parseFloat(chartElement.dataset.seriesHomme);
+    const seriesFemme = parseFloat(chartElement.dataset.seriesFemme);
+      buildChart('#hs-pie-chart', () => ({
+        chart: {
+          height: '100%',
+          type: 'pie',
+          zoom: {
+            enabled: false
+          }
+        },
+        series: [seriesHomme,seriesFemme],
+        labels: ['Hommes', 'Femmes'],
+        title: {
+          show: false
+        },
+        dataLabels: {
+          style: {
+            fontSize: '20px',
+            fontFamily: 'Inter, ui-sans-serif',
+            fontWeight: '400',
+            colors: ['#fff', '#fff']
+          },
+          dropShadow: {
+            enabled: false
+          },
+          formatter: (value) => `${value.toFixed(1)} %`
+        },
+        plotOptions: {
+          pie: {
+            dataLabels: {
+              offset: -15
+            }
+          }
+        },
+        legend: {
+          show: false
+        },
+        stroke: {
+          width: 4
+        },
+        grid: {
+          padding: {
+            top: -10,
+            bottom: -14,
+            left: -9,
+            right: -9
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        states: {
+          hover: {
+            filter: {
+              type: 'none'
+            }
+          }
+        }
+      }), {
+        colors: ['#3b82f6','#22d3ee'],
+        stroke: {
+          colors: ['rgb(255,255, 255)']
+        }
+      }, {
+        colors: ['#3b82f6','#404040'],
+        stroke: {
+          colors: ['rgb(38, 38, 38)']
+        }
+      });
+    })();
+  });
+</script>
+{% endblock %}

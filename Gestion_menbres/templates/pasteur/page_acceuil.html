@@ -1,0 +1,17 @@
+{% extends 'base.html'  %}
+{% block title %}
+Page d'acceuil
+{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>{{ user.username }}</h1>
+{% endif %}
+
+{% if pasteur %}
+<h1> Pasteur </h1>
+<a href="{% url 'admin:index' %}">Manage</a>
+
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'base.html'  %}
+{% load custom_tags %}
+{% block title %}
+Detail
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/diacre/asise_membre.html' %}
+    <div class="flex h-full w-full flex-col">
+         {% include 'includes/diacre/nav.html' %}
+        <!-- Main -->
+    <div class="h-full overflow-auto ">
+
+         <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4 mt-2 mb-4"><span
+            class="text-gray-500 font-thin dark:text-gray-400">Menbres</span> | Ajouter</p>
+{% if messages %}
+    {% for message in messages %}
+      <div class="flex flex-col gap-3 mb-4">
+          {% if message.tags == 'error' %}
+         <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-red-500">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-500 stroke-current" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 8V12V8ZM12 16H12.01H12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Erreur d'enregistrement</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message }}</div>
+        </div>
+    </div>
+      {% else %}
+       <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Enregistrement effectué</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">Le membre a été enregistré avec succès.</div>
+        </div>
+    </div>
+      {% endif %}
+
+
+</div>
+    {% endfor %}
+  {% endif %}
+
+<form method="post" enctype="multipart/form-data" class="bg-gray-100 p-8 rounded-lg shadow-md" action="{% url 'gestMenb:Ajouter_membre_diacre'  %}">
+    {% csrf_token %}
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div>
+            <label  class="block text-sm font-medium text-gray-700">{{ form.nom.label }}</label>
+            {{ form.nom|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+        <div>
+            <label  class="block text-sm font-medium text-gray-700">{{ form.postnom.label }}</label>
+            {{ form.postnom|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+        <div>
+            <label  class="block text-sm font-medium text-gray-700">{{ form.prenom.label }}</label>
+            {{ form.prenom|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+        <div>
+            <label  class="block text-sm font-medium text-gray-700">{{ form.date.label }}</label>
+            {{ form.date|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+    </div>
+
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-6 gap-6">
+        <div>
+            <label  class="block text-sm font-medium text-gray-700">{{ form.email.label }}</label>
+            {{ form.email|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+        <div>
+    <label for="{{ form.genre.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.genre.label }}</label>
+    <select name="{{ form.genre.name }}" id="{{ form.genre.id_for_label }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        {% for choice in form.genre.field.choices %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+    </select>
+</div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">{{ form.Adresse.label }}</label>
+            {{ form.Adresse|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">{{ form.telephone.label }}</label>
+            {{ form.telephone|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+    </div>
+
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-6 gap-6">
+        <div>
+    <label for="{{ form.statut.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.statut.label }}</label>
+    <select name="{{ form.statut.name }}" id="{{ form.statut.id_for_label }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        {% for choice in form.statut.field.choices %}
+        <option value="{{ choice.0 }}" {% if choice.0 == 'Actif' %}selected{% endif %}>{{ choice.1 }}</option>
+    {% endfor %}
+    </select>
+</div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">{{ form.photo.label }}</label>
+            {{ form.photo|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+        <div>
+    <label for="{{ form.etat_civil.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.etat_civil.label }}</label>
+    <select name="{{ form.etat_civil.name }}" id="{{ form.etat_civil.id_for_label }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        {% for choice in form.etat_civil.field.choices %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+    </select>
+</div>
+        <div>
+            <label  class="block text-sm font-medium text-gray-700">{{ form.quartier.label }}</label>
+            {{ form.quartier|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+    </div>
+     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-6 gap-6">
+        <div>
+    <label for="{{ form.groupe_sanguin.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.groupe_sanguin.label }}</label>
+    <select name="{{ form.groupe_sanguin.name }}" id="{{ form.groupe_sanguin.id_for_label }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        {% for choice in form.groupe_sanguin.field.choices %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+    </select>
+</div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">{{ form.fonction.label }}</label>
+            {{ form.fonction|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+
+
+
+    <div class="col-span-1 sm:col-span-4 mt-4">
+        <div class="flex items-center justify-end">
+            <button type="submit" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Enregistrer
+            </button>
+        </div>
+    </div>
+</form>
+
+    </div>
+    <!-- /Main -->
+        {% include 'includes/footer.html' %}
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

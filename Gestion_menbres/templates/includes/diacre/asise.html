@@ -1,0 +1,139 @@
+{% load static %}
+<aside class="fixed top-0 z-50 md:relative">
+    <!-- Sidebar -->
+    <input type="checkbox" class="peer hidden" id="sidebar-open" />
+    <label class="peer-checked:rounded-full peer-checked:p-2 peer-checked:right-6 peer-checked:bg-gray-600 peer-checked:text-white absolute top-4 z-20 mx-4 cursor-pointer md:hidden" for="sidebar-open">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+    <div class="absolute inset-0 bg-cover opacity-50" style="background-image: url('{% static 'img/background.jpeg' %}'); background-size: cover;
+background-repeat: no-repeat;
+ background-position: center;"></div>
+    <div class="absolute top-4 left-1/2 -translate-x-1/2">
+    <img src="{% static 'img/logo-white.png' %}" alt="Logo" class="h-24">
+  </div>
+    <nav aria-label="Sidebar Navigation" class="peer-checked:w-64  bg-slate-950  left-0 z-10 flex h-screen w-0 flex-col overflow-auto md:h-screen md:w-64 lg:w-64"
+    >
+        <!--<div class="flex bg-white justify-center items-center md:mt-0">
+
+        <img src="static/img/logo.png" alt="Image" class="h-20 p-4">
+      </div>-->
+      <ul class="mt-32 space-y-6  md:mt-32">
+        <li class="relative m-2">
+          <a href="{% url 'gestMenb:Diacre_view' %}" class="select text-white  rounded-lg text-black    flex w-full space-x-2  px-10 py-4 font-semibold focus:outline-none">
+            <span
+              ><i class="fa-solid fa-chart-line fa-xl icon  text-white icon-lg icon-shape"></i></span
+            ><span class="Atta text-lg">Page d'acceuil</span>
+          </a>
+        </li>
+           <li class="relative m-2">
+          <button class="text-white hover:bg-gray-500 rounded-lg flex w-full space-x-2  px-10 py-4 font-semibold focus:outline-none">
+            <span
+              ><i class="fa-solid fa-church fa-xl icon  text-white icon-lg icon-shape"></i></span
+            ><span class="Atta text-lg">Cultes</span>
+          </button>
+
+        </li>
+        <li class="relative m-2">
+          <a href="{% url 'gestMenb:Menbres_diacre_view' %}" class="hover:bg-gray-500 text-white rounded-lg flex w-full space-x-2  px-10 py-4 font-semibold focus:outline-none">
+            <span
+              ><i class="fa-solid fa-users fa-xl icon icon-lg icon-shape text-white"></i></span
+            ><span class="Atta text-lg">Membres</span>
+          </a>
+
+        </li>
+
+          <li class="relative m-2">
+            <button type="button" class="hover:bg-gray-500 rounded-lg flex w-full space-x-2 px-10 py-4  font-semibold  focus:outline-none" aria-controls="dropdown-examples" data-collapse-toggle="dropdown-examples">
+                  <i class="fa-solid fa-list fa-xl icon icon-lg icon-shape text-white"></i>
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap Atta text-lg text-white">Activités</span>
+                  <svg class="w-3 h-3 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+            </button>
+            <ul id="dropdown-examples" class="hidden py-2 space-y-2">
+                  <li>
+                     <a href="#" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700 "><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Consécrations</a>
+                  </li>
+                  <li>
+                     <a href="#" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700"><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Communications </a>
+                  </li>
+                  <li>
+                     <a href="#" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700"><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Anniversaires</a>
+                  </li>
+                <li>
+                     <a href="#" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700"><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Baptêmes</a>
+                  </li>
+
+
+
+            </ul>
+         </li>
+
+           <li class="relative m-2 ">
+          <a  href="{% url 'gestMenb:Evenement' %}" class="text-white hover:bg-gray-500 rounded-lg flex w-full space-x-2  px-10 py-4 font-semibold focus:outline-none">
+            <span
+              ><i class="fa-solid fa-calendar-week fa-xl text-white icon icon-lg icon-shape"></i></span
+            ><span class="Atta text-lg">Evénements</span>
+          </a>
+
+        </li>
+           <li class="relative m-2">
+            <button type="button" class="hover:bg-gray-500 rounded-lg flex w-full space-x-2 px-10 py-4  font-semibold  focus:outline-none" aria-controls="dropdown-examples-tools" data-collapse-toggle="dropdown-examples-tools">
+                  <i class="fa-solid fa-layer-group fa-xl icon icon-lg icon-shape text-white"></i>
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap Atta text-lg text-white">Tables</span>
+                  <svg class="w-3 h-3 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+            </button>
+            <ul id="dropdown-examples-tools" class="hidden py-2 space-y-2">
+                  <li>
+                     <a href="{% url 'gestMenb:Diacres_view' %}" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700"><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Diacres </a>
+                  </li>
+                <li>
+                     <a href="{% url 'gestMenb:Fonction_view' %}" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700"><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Fonctions </a>
+                  </li>
+                  <li>
+                     <a href="{% url 'gestMenb:Quartier_view' %}" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700 "><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Quartiers</a>
+                  </li>
+                 <li>
+                     <a href="{% url 'gestMenb:Administrateur_view' %}" class="flex items-center w-full p-2 Atta text-lg text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700"><span><i class="fa-solid fa-circle fa-lg icon  p-2 text-white icon-lg icon-shape"></i></span>Administrateurs </a>
+                  </li>
+
+
+            </ul>
+         </li>
+           <li class="relative m-2">
+          <button class="text-white hover:bg-gray-500 rounded-lg flex w-full space-x-2  px-10 py-4 font-semibold focus:outline-none">
+            <span
+              ><i class="fa-solid fa-calendar fa-xl icon  text-white icon-lg icon-shape"></i></span
+            ><span class="Atta text-lg">Rendez-vous</span>
+          </button>
+
+        </li>
+
+
+
+
+
+
+
+
+      </ul>
+
+
+
+      <!--<div class="my-6 mt-auto ml-10 flex cursor-pointer">
+        <div>
+          <img class="h-12 w-12 rounded-full" src="static/img/icon.jpeg" alt="Image" />
+        </div>
+        <div class="ml-3">
+            {% if user.is_authenticated %}
+          <p class="font-medium text-gray-800">{{ user.username }}</p>
+          <p class="text-sm text-blue-500">Pasteur</p>
+            {% endif %}
+        </div>
+      </div>-->
+    </nav>
+  </aside>

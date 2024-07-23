@@ -1,0 +1,9 @@
+mot de passe : AttaElRoi2024
+
+
+{% if user.is_authenticated %}
+    <h1>{{ user.username }}</h1>
+{% endif %}
+
+
+<a href="{% url 'admin:login' %}">Manage</a>

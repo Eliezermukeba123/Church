@@ -1,0 +1,98 @@
+{% extends 'base.html'  %}
+{% load custom_tags %}
+{% block title %}
+Membres
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/diacre/quartier.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/diacre/nav.html' %}
+        <!-- Main -->
+    <div class="h-full overflow-auto ">
+         <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4 mt-2 mb-4"><span
+            class="text-gray-500 font-thin dark:text-gray-400">Quartiers</span> | Modifier</p>
+        {% if messages %}
+    {% for message in messages %}
+      <div class="flex flex-col gap-3 mb-4">
+          {% if message.tags == 'error' %}
+         <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-red-500">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-500 stroke-current" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 8V12V8ZM12 16H12.01H12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Echec de la mise à jour </div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message }}</div>
+        </div>
+    </div>
+      {% else %}
+       <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Succès </div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message }}</div>
+        </div>
+    </div>
+      {% endif %}
+
+
+</div>
+    {% endfor %}
+  {% endif %}
+        <div class="bg-gray-100  m-4  py-8 px-4 sm:px-6 lg:px-8">
+ <div class="mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+    <form id="search-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white p-4 shadow-lg border" method="POST" >
+        {% csrf_token %}
+      {% for field in form %}
+      <div class="col-span-1 sm:col-span-1">
+        <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+        <div class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm">
+          {{ field|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm" }}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="col-span-1 sm:col-span-4">
+        <div class="flex items-center">
+          <button type="submit" id="search-button" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+</div>
+
+
+<!-- Main modal -->
+
+
+
+
+
+    </div>
+    <!-- /Main -->
+        {% include 'includes/footer.html' %}
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

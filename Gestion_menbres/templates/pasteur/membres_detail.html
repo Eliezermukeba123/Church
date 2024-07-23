@@ -1,0 +1,172 @@
+{% extends 'base.html'  %}
+{% block title %}
+Detail
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/asise_menbres.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/nav.html' %}
+        <!-- Main -->
+    <div class="h-full overflow-auto ">
+         <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4 mt-2 mb-4"><span
+            class="text-gray-500 font-thin dark:text-gray-400">Menbres</span> | détail</p>
+
+        <div class="bg-gray-100 m-4">
+    <div class="container mx-auto py-8">
+        <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+            <div class="col-span-4 sm:col-span-3">
+                <div class="bg-white shadow rounded-lg p-6">
+                    <div class="flex flex-col items-center">
+
+                         {% if menbre.photo %}
+                         <img src="{{ menbre.photo.url }}" class="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0" onclick="showModal('{{ menbre.photo.url }}')">
+                         {% else %}
+                         <i class="fas fa-user-circle w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"></i>
+                         {% endif %}
+
+                        <h1 class="text-md font-bold">{{ menbre.nom }} {{ menbre.postnom }} {{ menbre.prenom }}</h1>
+                        <p class="text-gray-700">{{ menbre.fonction.nom }}</p>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-span-4 sm:col-span-9">
+                <div class="bg-red shadow rounded-lg">
+                    <div class="bg-gray-100 dark:bg-gray-900">
+                        <div class="bg-white overflow-hidden shadow rounded-lg border">
+    <div class="px-2 py-2 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Détails personnels
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          Informations du profil.
+        </p>
+
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                   Date de naissance
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ menbre.date }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Genre
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                   {{ menbre.genre }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Adresse
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                     {{ menbre.Adresse }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Email
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ menbre.email }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Téléphone
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ menbre.telephone }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Statut
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ menbre.statut }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    État civil
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ menbre.etat_civil }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Groupe sanguin
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{ menbre.groupe_sanguin }}
+                </dd>
+            </div>
+            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                    Quartier
+                </dt>
+                <dd class="mt-1 text-sm text-blue-600 sm:mt-0 sm:col-span-2">
+                    <a href="#">{{ menbre.quartier.nom }}</a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <div id="modal" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <img id="modal-image" src="" class="max-w-full" alt="Modal Image">
+            <button class="mt-4 select hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="hideModal()">Fermer</button>
+        </div>
+    </div>
+</div>
+
+    </div>
+    <!-- /Main -->
+        {% include 'includes/footer.html' %}
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function showModal(imageUrl) {
+    document.getElementById('modal-image').src = imageUrl;
+    document.getElementById('modal').classList.remove('hidden');
+}
+
+function hideModal() {
+    document.getElementById('modal').classList.add('hidden');
+}
+
+</script>
+
+
+{% endblock %}
