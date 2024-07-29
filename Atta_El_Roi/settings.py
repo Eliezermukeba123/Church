@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'Gestion_menbres',
     'django_filters',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

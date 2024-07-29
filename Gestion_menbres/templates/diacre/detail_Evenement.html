@@ -33,8 +33,11 @@ Membres
         {% endif %}
         <div class="flex mt-2 space-x-4 flex-wrap">
 
-     <button type="button" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+     <button type="button" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <i class="fa-solid fa-pen-to-square fa-xl icon  text-white icon-lg icon-shape"></i>
+          </button>
+            <button type="button" data-item-id="{{ events.id }}"  class="delete-button outline outline-offset-2 outline-cyan-500 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-cyan-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <i class="fa-solid fa-trash fa-xl icon  text-red-500 icon-lg icon-shape"></i>
           </button>
 
     </div>
@@ -91,10 +94,18 @@ Membres
 
           </tbody>
         </table>
+
       </div>
     </div>
   </div>
 </div>
+
+             <div class="bg-gray-100 mt-4 px-4 py-5 flex flex-col  rounded-lg shadow">
+                        <h1 class="mb-4 text-start text-xs font-medium  text-gray-500 uppercase dark:text-neutral-500">Autres Membres</h1>
+                        <hr class="border-t border-gray-300 mb-4">
+                   {{events.autres|linebreaksbr}}
+
+            </div>
         </div>
 
 
@@ -148,7 +159,8 @@ Membres
                      <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.heure_even.label }}</label>
                          {{ form.heure_even|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
-                    </div>
+
+                     </div>
                      <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ form.place_even.label }}</label>
                          {{ form.place_even|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
@@ -168,6 +180,10 @@ Membres
     </select>
 </div>
 
+                    </div>
+                     <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Autres Membres</label>
+                         {{ form.autres|add_class:"mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" }}
                     </div>
                       <div class="l">
         <div class="flex items-center">
@@ -204,7 +220,53 @@ Membres
         });
     </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+        // Ajoutez un gestionnaire d'événements pour tous les boutons de suppression
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function () {
+                var cle = this.getAttribute('data-item-id');
 
+                Swal.fire({
+                 title: "Êtes-vous sûr ?",
+                text: "Vous ne pourrez pas revenir en arrière après cette suppression !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#00acc1",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Oui, supprimer !",
+                cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/Diacre/Culte_Evenement/' + cle + '/',
+                            type: 'POST',
+                            data: {
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Inclure le jeton CSRF
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                title: "Supprimé !",
+                                text: "L'événement   a été supprimé avec succès.",
+                                icon: "success"
+                                }).then(() => {
+                                    // Optionnel: recharger la page ou retirer l'élément supprimé du DOM
+                                   window.location.href = '{% url "gestMenb:Evenement" %}'
+                                });
+                            },
+                            error: function(response) {
+                                Swal.fire({
+                                 title: "Erreur !",
+                                text: "Il y a eu une erreur lors de la suppression.",
+                                icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 
 

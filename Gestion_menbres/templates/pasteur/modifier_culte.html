@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}
+Culte
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/culte.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/nav.html' %}
+        <!-- Main -->
+        <div class="h-full overflow-auto ">
+            <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4  mb-4"><span
+                    class="text-gray-500 font-thin dark:text-gray-400">Culte</span> | {{date_culte}}</p>
+
+   {% if messages %}
+    {% for message in messages %}
+      <div class="flex flex-col gap-3 mb-4">
+          {% if message.tags == 'error' %}
+         <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-red-500">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-500 stroke-current" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 8V12V8ZM12 16H12.01H12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Erreur </div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message}}</div>
+        </div>
+    </div>
+      {% else %}
+       <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Mise à jour  effectué</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">Le culte a été mis à jour avec succès..</div>
+        </div>
+    </div>
+      {% endif %}
+
+
+</div>
+    {% endfor %}
+  {% endif %}
+
+
+
+
+           <form method="post" enctype="multipart/form-data" class="bg-gray-100 p-8 rounded-lg shadow-md">
+               <h1 class="text-center text-Bold m-4 text-xl text-gray-900">DIAGONA</h1>
+    {% csrf_token %}
+    {{ form.media}}
+     <div class="flex flex-col w-full  space-y-4">
+          <div class="flex flex-col md:flex md:flex-row md:space-x-2">
+            <label  class="block text-sm font-bold text-red-700">Cochez la case suivante pour approuver / désapprouver le culte !</label>
+            {{form.status|add_class:"mt-1 focus:border-bright focus:outline-none block  border-red-300 "}}
+
+        </div>
+
+          <div>
+            <label for="{{ form.date.id_for_label }}" class="block text-sm font-bold text-gray-700">{{ form.date.label }}</label>
+  <input type="date" name="{{ form.date.name }}" id="{{ form.date.id_for_label }}" value="{{ form.date.value|date:'Y-m-d' }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
+
+        </div>
+        <div class="flex flex-col md:flex md:flex-row md:space-x-2">
+            <div class="md:flex md:w-1/2 w-full flex flex-col">
+                <label for="{{ form.heure_debut.id_for_label }}" class="block text-sm font-bold text-gray-700">{{ form.heure_debut.label }}</label>
+<input type="time" name="{{ form.heure_debut.name }}" id="{{ form.heure_debut.id_for_label }}" value="{{ form.heure_debut.value|time:'H:i' }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+            </div>
+            <div class="md:flex md:w-1/2 w-full flex flex-col">
+                 <label for="{{ form.heure_fin.id_for_label }}" class="block text-sm font-bold text-gray-700">{{ form.heure_fin.label }}</label>
+<input type="time" name="{{ form.heure_fin.name }}" id="{{ form.heure_fin.id_for_label }}" value="{{ form.heure_fin.value|time:'H:i' }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+            </div>
+
+        </div>
+
+        <div>
+            <label  class="block text-sm font-bold text-gray-700">{{ form.predicateur.label }}</label>
+            {{ form.predicateur|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
+
+        </div>
+
+        <div>
+            <label  class="block text-sm font-bold text-gray-700">{{ form.predicateur_visiteur.label }}</label>
+            {{ form.predicateur_visiteur|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
+
+        </div>
+
+         <div>
+
+            <label  class="block text-sm font-bold text-gray-700 mb-4">{{ form.consecration.label }}</label>
+            {{ form.consecration }}
+
+        </div>
+         <div>
+
+            <label  class="block text-sm font-bold text-gray-700 mb-4">{{ form.anniversaire.label }}</label>
+            {{ form.anniversaire }}
+
+        </div>
+         <div>
+
+            <label  class="block text-sm font-bold text-gray-700 mb-4">{{ form.remerciement.label }}</label>
+            {{ form.remerciement }}
+
+        </div>
+        <div>
+
+            <label  class="block text-sm font-bold text-gray-700 mb-4">{{ form.communication.label }}</label>
+            {{ form.communication }}
+
+        </div>
+
+         <div>
+
+            <label  class="block text-sm font-bold text-gray-700 mb-4">{{ form.temoignages_du_jour.label }}</label>
+            {{ form.temoignages_du_jour }}
+
+        </div>
+         <div>
+
+            <label  class="block text-sm font-bold text-gray-700 mb-4">{{ form.cantiques_speciaux.label }}</label>
+            {{ form.cantiques_speciaux }}
+
+        </div>
+
+
+
+
+
+    <div class="col-span-1 sm:col-span-4 mt-4">
+        <div class="flex items-center justify-end">
+            <button type="submit" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Enregistrer
+            </button>
+        </div>
+    </div>
+    </div>
+
+</form>
+
+
+
+
+
+
+    </div>
+    <!-- /Main -->
+    {% include 'includes/footer.html' %}
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript de Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({
+            placeholder: 'Sélectionnez les diacres',
+            allowClear: true,
+
+        });
+    });
+</script>
+{% endblock %}

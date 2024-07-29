@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}
+Membres
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/diacre/culte.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/diacre/nav.html' %}
+        <!-- Main -->
+        <div class="h-full overflow-auto ">
+            <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4  mb-4"><span
+                    class="text-gray-500 font-thin dark:text-gray-400">Cultes</span> | {{nombre}}</p>
+
+
+            <section class="relative bg-slate-100 overflow-x-auto shadow-md m-4 sm:rounded-lg">
+                <div class="container mt-10 mb-8  flex flex-col items-center justify-center  space-y-8 md:space-y-0 md:flex md:flex-row md:items-center md:justify-center md:space-x-8">
+                    <a  href="{% url 'gestMenb:culte_create' %}" class="p-4 rounded-2xl select hover:bg-brightWhite  outline-none  text-white"> Démarrer un culte</a>
+                    <a href="{% url 'gestMenb:culte_consultation' %}" class="p-4 rounded-2xl select hover:bg-brightWhite  outline-none  text-white"> Consulter les cultes</a>
+
+
+                </div>
+            </section>
+
+
+
+
+
+    </div>
+    <!-- /Main -->
+    {% include 'includes/footer.html' %}
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}

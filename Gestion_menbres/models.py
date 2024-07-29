@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -104,7 +105,8 @@ class Evenement(models.Model):
     date_even = models.DateField(verbose_name="Date")
     heure_even = models.TimeField(verbose_name="Heure")
     place_even = models.CharField(max_length=255, blank=False, verbose_name="Lieu")
-    membres = models.ManyToManyField(Menbres, related_name='Evenement_membres',blank=True, null=True)
+    membres = models.ManyToManyField(Menbres, related_name='Evenement_membres',blank=True)
+    autres = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.type_even}"
@@ -258,3 +260,24 @@ class Gardinage(models.Model):
         return f"{self.garde}"
 
 
+class Culte(models.Model):
+    date = models.DateField(verbose_name="Date")
+    heure_debut = models.TimeField(verbose_name="Debut service")
+    heure_fin = models.TimeField(verbose_name="Fin service",)
+    predicateur = models.ForeignKey(Menbres, on_delete=models.CASCADE, verbose_name="Prédicateur", blank=True, null=True)
+    predicateur_visiteur = models.CharField(max_length=100, blank=True, null=True, verbose_name="Prédicateur visiteur")
+    nombre_membres = models.PositiveIntegerField(verbose_name="Effectif Total",blank=True,default=0)
+    nombre_offrandes = models.FloatField(verbose_name="Offrande Régulier",blank=True,default=0.0)
+    nombre_construction = models.FloatField(verbose_name="Offrande de Construction",blank=True,default=0.0)
+    communication = RichTextField(verbose_name="Communiqué",blank=True,null=True)
+    temoignages_du_jour = RichTextField(verbose_name="Témoignage",blank=True,null=True)
+    cantiques_speciaux = RichTextField(verbose_name="Cantiques Spéciaux",blank=True,null=True)
+    anniversaire = RichTextField(verbose_name="Anniversaires",blank=True,null=True)
+    consecration = RichTextField(verbose_name="Consecrations",blank=True,null=True)
+    remerciement = RichTextField(verbose_name="Remerciements",blank=True,null=True)
+    diacres = models.ManyToManyField(Menbres, related_name='Diacres', blank=True)
+    conducteurs_de_chant = models.CharField(max_length=200,blank=True)
+    status = models.BooleanField(blank=True,default=0)
+
+    def __str__(self):
+        return f"{self.date}"

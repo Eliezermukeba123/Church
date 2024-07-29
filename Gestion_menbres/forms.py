@@ -1,7 +1,8 @@
+from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Menbres, Quartier, Fonction, Diacre, Administateur, Comite, Evenement
+from .models import Menbres, Quartier, Fonction, Diacre, Administateur, Comite, Evenement, Culte
 
 
 class UserLoginForm(forms.Form):
@@ -128,13 +129,44 @@ class ComiteForm(forms.ModelForm):
 class EvenementForm(forms.ModelForm):
     class Meta:
         model = Evenement
-        fields = ['type_even', 'date_even', 'heure_even', 'place_even', 'membres']
+        fields = ['type_even', 'date_even', 'heure_even', 'place_even', 'membres', 'autres']
         widgets = {
             'date_even': forms.DateInput(attrs={'type': 'date'}),
             'heure_even': forms.TimeInput(attrs={'type': 'time'}),
             'membres': forms.CheckboxSelectMultiple(),
+            'autres': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['membres'].required = False
+
+
+class CulteForm(forms.ModelForm):
+    predic = Fonction.objects.get(nom="Prédicateur")
+    predicateur = forms.ModelChoiceField(queryset=Menbres.objects.filter(fonction=predic), label="Prédicateur",required=False)
+    diacres = forms.ModelMultipleChoiceField(queryset=Menbres.objects.all(), label="Diacres", required=False)
+    communication = forms.CharField(widget=CKEditorWidget(), label="Communiqués", required=False)
+    temoignages_du_jour = forms.CharField(widget=CKEditorWidget(), label="Témoignages", required=False)
+    cantiques_speciaux = forms.CharField(widget=CKEditorWidget(), label="Cantiques Spéciaux", required=False)
+    anniversaire = forms.CharField(widget=CKEditorWidget(), label="Anniversaires", required=False)
+    consecration = forms.CharField(widget=CKEditorWidget(), label="Consécrations", required=False)
+    remerciement = forms.CharField(widget=CKEditorWidget(), label="Rémerciements", required=False)
+
+    class Meta:
+        model = Culte
+        fields = '__all__'
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'heure_debut': forms.TimeInput(attrs={'type': 'time'}),
+            'heure_fin': forms.TimeInput(attrs={'type': 'time'}),
+        }
+        labels = {
+            'date': "Date",
+            'heure_debut': "Début service",
+            'heure_fin': "Fin service",
+            'nombre_membres': "Effectif Total",
+            'nombre_offrandes': "Offrande Régulier",
+            'nombre_construction': "Offrande de Construction",
+            'conducteurs_de_chant': "Conducteur de chant",
+        }

@@ -12,7 +12,7 @@ Detail
         <!-- Main -->
     <div class="h-full overflow-auto ">
          <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4 mt-2 mb-4"><span
-            class="text-gray-500 font-thin dark:text-gray-400">Menbres</span> | Détail</p>
+            class="text-gray-500 font-thin dark:text-gray-400">Membres</span> | Détail</p>
 {% if messages %}
     {% for message in messages %}
       <div class="flex flex-col gap-3 mb-4">
@@ -62,8 +62,8 @@ Detail
                          <i class="fas fa-user-circle w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"></i>
                          {% endif %}
 
-                        <h1 class="text-md font-bold">{{ menbre.nom }} {{ menbre.postnom }} {{ menbre.prenom }}</h1>
-                        <p class="text-gray-700">{{ menbre.fonction.nom }}</p>
+                        <h1 class="text-md font-bold items-center text-center">{{ menbre.nom }} {{ menbre.postnom }} {{ menbre.prenom }}</h1>
+                        <p class="text-cyan-500 font-bold ">{{ menbre.fonction.nom }}</p>
 
                     </div>
 
@@ -74,9 +74,20 @@ Detail
                     <div class="bg-gray-100 dark:bg-gray-900">
                         <div class="bg-white overflow-hidden shadow rounded-lg border">
     <div class="px-2 py-2 sm:px-6">
+        <div class="flex flex-row justify-between">
+            <div>
         <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Détails personnels <a href="{% url 'gestMenb:Modifier_menbre' cle=menbre.id %}"><i class="fa-solid fa-user-pen fa-lg icon icon-lg icon-shape" style="color: #0fd4f5;"></i></a>
+            Détails personnels
         </h3>
+            </div>
+            <div class="bg-white p-2 outline outline-offset-2 outline-cyan-500 ">
+                <a href="{% url 'gestMenb:Modifier_menbre' cle=menbre.id %}"><i class="fa-solid fa-user-pen fa-lg icon icon-lg icon-shape" style="color: #0fd4f5;"></i></a>
+            <button data-item-id="{{menbre.id}}" class="delete-button"><i class="fa-solid fa-trash fa-lg icon icon-lg icon-shape text-red-500 hover:text-cyan-500"></i></button>
+
+            </div>
+
+        </div>
+
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
           Informations du profil.
         </p>
@@ -201,6 +212,52 @@ function hideModal() {
 }
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+        // Ajoutez un gestionnaire d'événements pour tous les boutons de suppression
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function () {
+                var cle = this.getAttribute('data-item-id');
 
+                Swal.fire({
+                 title: "Êtes-vous sûr ?",
+                text: "Vous ne pourrez pas revenir en arrière après cette suppression !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#00acc1",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Oui, supprimer !",
+                cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/Diacre/Culte_Membre/' + cle + '/',
+                            type: 'POST',
+                            data: {
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Inclure le jeton CSRF
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                title: "Supprimé !",
+                                text: "Un membre  a été supprimé avec succès.",
+                                icon: "success"
+                                }).then(() => {
+                                    // Optionnel: recharger la page ou retirer l'élément supprimé du DOM
+                                   window.location.href = '{% url "gestMenb:Menbres_diacre_view" %}'
+                                });
+                            },
+                            error: function(response) {
+                                Swal.fire({
+                                 title: "Erreur !",
+                                text: "Il y a eu une erreur lors de la suppression.",
+                                icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 {% endblock %}

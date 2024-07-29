@@ -116,3 +116,18 @@ class EvenementFilter(django_filters.FilterSet):
     class Meta:
         model = Evenement
         fields = ['date_even', 'type_even']
+
+
+class CulteFilter(django_filters.FilterSet):
+    date = django_filters.DateFilter(
+        field_name='date',
+        lookup_expr='exact',
+        widget=DateInput(attrs={'type': 'date'})
+    )
+    predicateur_visiteur = django_filters.CharFilter(field_name='predicateur_visiteur', lookup_expr='icontains',label="Prédicateur visiteur")
+    predic = Fonction.objects.get(nom="Prédicateur")
+    predicateur = django_filters.ModelChoiceFilter(queryset=Menbres.objects.filter(fonction=predic), label="Prédicateur")
+
+    class Meta:
+        model = Culte
+        fields = ['date','predicateur', 'predicateur_visiteur']

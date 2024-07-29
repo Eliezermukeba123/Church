@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}
+Culte
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/culte.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/nav.html' %}
+        <!-- Main -->
+        <div class="h-full overflow-auto ">
+            <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4  mb-4"><span
+                    class="text-gray-500 font-thin dark:text-gray-400">Cultes</span> | {{nombre}}</p>
+
+{% if messages %}
+    {% for message in messages %}
+      <div class="flex flex-col gap-3 mb-4">
+          {% if message.tags == 'error' %}
+         <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-red-500">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-500 stroke-current" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 8V12V8ZM12 16H12.01H12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Erreur</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message }}</div>
+        </div>
+    </div>
+      {% else %}
+       <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Succès</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message }}</div>
+        </div>
+    </div>
+      {% endif %}
+
+
+</div>
+    {% endfor %}
+  {% endif %}
+
+
+             <div class="bg-gray-100  m-4  py-8 px-4 sm:px-6 lg:px-8">
+                <div class=mx-auto">
+                    <form id="search-form" class="grid grid-cols-1 md:grid-cols-3 gap-3" method="GET">
+                        {% for field in myFilter.form %}
+                        <div class="col-span-1 sm:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+
+                            <div
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm">
+                                {{field|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-span-1 sm:col-span-4">
+                            <div class="flex items-center">
+
+                                <button type="submit" id="search-button"
+                                    class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Rechercher
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+  <div class="relative overflow-x-auto shadow-md m-4 sm:rounded-lg">
+                <table id="article-table"
+                    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+
+                            <th scope="col" class="px-6 py-3">
+                                Date
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Prédicateur
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Effectif
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for culte in objets_page %}
+                        <tr
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+                             <td class="px-6 py-4">
+                                {{ culte.date}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {% if culte.predicateur %}
+                                {{ culte.predicateur.nom}} {{ culte.predicateur.postnom}} {{ culte.predicateur.prenom}}
+                                {% else %}
+                                {{ culte.predicateur_visiteur }}
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{culte.nombre_membres}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {% if culte.status == 0%}
+
+                                <i class="fa-regular fa-circle-xmark items-center justify-center fa-xl text-red-500"></i>
+                                {% else %}
+                                 <i class="fa-solid fa-check items-center justify-center fa-xl text-blue-500 "></i>
+                                {% endif %}
+
+                            </td>
+                            <td>
+
+                      <a href="{% url 'gestMenb:vue_culte_pasteur' cle=culte.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><i class="fa-solid  fa-xl fa-eye text-green-500"></i></a>
+
+                                {% if culte.date >= date_actuelle %}
+                      <a href="{% url 'gestMenb:Modifier_culte_pasteur' cle=culte.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><i class="fa-solid  fa-xl fa-pen-to-square" style="color: #0fd4f5;"></i></a>
+                                {% endif %}
+
+                </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div id="pages" class="flex justify-center mt-8 mb-2">
+                    <ul class="pagination flex ">
+                        {% if objets_page.has_previous %}
+                        <li>
+                            <a href="?page={{ objets_page.previous_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded select text-white">Précédent</a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in objets_page.paginator.page_range %}
+                        {% if objets_page.number == num %}
+                        <li>
+                            <a href="?page={{ num }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded select text-white">{{ num }}</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="?page={{ num }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded bg-gray-200 text-blue-500">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if objets_page.has_next %}
+                        <li>
+                            <a href="?page={{ objets_page.next_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded select text-white">Suivant</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+
+    </div>
+    <!-- /Main -->
+    {% include 'includes/footer.html' %}
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript de Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+        // Ajoutez un gestionnaire d'événements pour tous les boutons de suppression
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function () {
+                var cle = this.getAttribute('data-item-id');
+
+                Swal.fire({
+                 title: "Êtes-vous sûr ?",
+                text: "Vous ne pourrez pas revenir en arrière après cette suppression !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#00acc1",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Oui, supprimer !",
+                cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/Diacre/Culte_Supprimer/' + cle + '/',
+                            type: 'POST',
+                            data: {
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Inclure le jeton CSRF
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                title: "Supprimé !",
+                                text: "Le culte a été supprimé avec succès.",
+                                icon: "success"
+                                }).then(() => {
+                                    // Optionnel: recharger la page ou retirer l'élément supprimé du DOM
+                                    location.reload(); // Recharge la page pour mettre à jour l'affichage
+                                });
+                            },
+                            error: function(response) {
+                                Swal.fire({
+                                 title: "Erreur !",
+                                text: "Il y a eu une erreur lors de la suppression du culte.",
+                                icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'base.html'  %}
+{% extends 'base.html' %}
 {% load custom_tags %}
 {% block title %}
 Membres
@@ -11,154 +11,205 @@ Membres
     <div class="flex h-full w-full flex-col">
         {% include 'includes/diacre/nav.html' %}
         <!-- Main -->
-    <div class="h-full overflow-auto ">
-         <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4 mt-2 mb-4"><span
-            class="text-gray-500 font-thin dark:text-gray-400">Menbres</span> | {{nombre}}</p>
-        <div class="bg-gray-100  m-4  py-8 px-4 sm:px-6 lg:px-8">
-  <div class=mx-auto">
-      <form  id="search-form" class="grid grid-cols-1 sm:grid-cols-4 gap-4" method="GET">
-       {% for field in myFilter.form %}
-<div class="col-span-1 sm:col-span-1">
-    <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+        <div class="h-full overflow-auto ">
+            <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4 mt-2 mb-4"><span
+                    class="text-gray-500 font-thin dark:text-gray-400">Membres</span> | {{nombre}}</p>
 
-   <div class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm">
-         {{ field|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm" }}
-   </div>
-</div>
-{% endfor %}
-      <div class="col-span-1 sm:col-span-4">
-        <div class="flex items-center">
-
-            <button type="submit" id="search-button" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Rechercher
-          </button>
+            {% if messages %}
+    {% for message in messages %}
+      <div class="flex flex-col gap-3 mb-4">
+          {% if message.tags == 'error' %}
+         <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-red-500">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-500 stroke-current" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 8V12V8ZM12 16H12.01H12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Erreur d'enregistrement</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">{{ message }}</div>
         </div>
-      </div>
-    </form>
-
-  </div>
+    </div>
+      {% else %}
+       <div
+        class="flex bg-white dark:bg-gray-900 items-center px-6 py-4 text-sm border-t-2 rounded-b shadow-sm border-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500 stroke-current" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <div class="ml-3">
+            <div class="font-bold text-left text-black dark:text-gray-50">Enregistrement effectué</div>
+            <div class="w-full text-gray-900 dark:text-gray-300 mt-1">Le membre a été enregistré avec succès.</div>
+        </div>
+    </div>
+      {% endif %}
 
 
 </div>
+    {% endfor %}
+  {% endif %}
 
-        <div class="flex justify-end m-4 space-x-4 flex-wrap">
-    <a href="{% url 'gestMenb:Ajouter_membre_diacre'  %}">
-     <button type="button"  class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <i class="fa-solid fa-user-plus fa-xl icon  text-white icon-lg icon-shape"></i>
-          </button>
-    </a>
-    <div class="relative inline-block text-left">
-      <div>
-         <button type="button"  class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <i class="fa-solid fa-file-pdf fa-xl icon  text-white icon-lg icon-shape"></i>
-          </button>
-      </div>
+            <div class="bg-gray-100  m-4  py-8 px-4 sm:px-6 lg:px-8">
+                <div class=mx-auto">
+                    <form id="search-form" class="grid grid-cols-1 sm:grid-cols-4 gap-4" method="GET">
+                        {% for field in myFilter.form %}
+                        <div class="col-span-1 sm:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
 
-    </div>
-    </div>
+                            <div
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm">
+                                {{field|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-400 focus:ring-indigo-500 sm:text-sm" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-span-1 sm:col-span-4">
+                            <div class="flex items-center">
+
+                                <button type="submit" id="search-button"
+                                    class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Rechercher
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
 
 
-<div class="relative overflow-x-auto shadow-md m-4 sm:rounded-lg">
-    <table id="article-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+            </div>
 
-                <th scope="col" class="px-6 py-3">
-                    Nom
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Fonction
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Status
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for membre in objets_page %}
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-
-                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    {% if membre.photo %}
-                        <img class="w-10 h-10 rounded-full" src="{{ membre.photo.url }}" alt="{{ membre.nom }}" onclick="showModal('{{ membre.photo.url }}')">
-                    {% else %}
-                        <i class="fas fa-user-circle w-10 h-10 rounded-full"></i>
-                    {% endif %}
-
-                    <div class="ps-3">
-                        <div class="text-base font-semibold">{{ membre.nom }} {{ membre.postnom }} {{ membre.prenom }}</div>
-                        <div class="font-normal text-gray-500">{{membre.telephone}}</div>
+            <div class="flex justify-end m-4 space-x-4 flex-wrap">
+                <a href="{% url 'gestMenb:Ajouter_membre_diacre'  %}">
+                    <button type="button"
+                        class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fa-solid fa-user-plus fa-xl icon  text-white icon-lg icon-shape"></i>
+                    </button>
+                </a>
+                <div class="relative inline-block text-left">
+                    <div>
+                        <button type="button"
+                            class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <i class="fa-solid fa-file-pdf fa-xl icon  text-white icon-lg icon-shape"></i>
+                        </button>
                     </div>
-                </th>
-                <td class="px-6 py-4">
-                    {{ membre.fonction.nom}}
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        {% if membre.statut == 'Actif' %}
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> {{ membre.statut}}
-                        {% else %}
-                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> {{ membre.statut}}
+
+                </div>
+            </div>
+
+
+            <div class="relative overflow-x-auto shadow-md m-4 sm:rounded-lg">
+                <table id="article-table"
+                    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+
+                            <th scope="col" class="px-6 py-3">
+                                Nom
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Fonction
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for membre in objets_page %}
+                        <tr
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+                            <th scope="row"
+                                class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                {% if membre.photo %}
+                                <img class="w-10 h-10 rounded-full" src="{{ membre.photo.url }}" alt="{{ membre.nom }}"
+                                    onclick="showModal('{{ membre.photo.url }}')">
+                                {% else %}
+                                <i class="fas fa-user-circle w-10 h-10 rounded-full"></i>
+                                {% endif %}
+
+                                <div class="ps-3">
+                                    <div class="text-base font-semibold">{{ membre.nom }} {{ membre.postnom }} {{ membre.prenom }}</div>
+                                    <div class="font-normal text-gray-500">{{membre.telephone}}</div>
+                                </div>
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ membre.fonction.nom}}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    {% if membre.statut == 'Actif' %}
+                                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> {{ membre.statut}}
+                                    {% else %}
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> {{ membre.statut}}
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{% url 'gestMenb:Detail_membre_diacre' cle=membre.id %}"
+                            class="select h-10 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <p>Détail</p>
+                        </a>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div id="pages" class="flex justify-center mt-8 mb-2">
+                    <ul class="pagination flex ">
+                        {% if objets_page.has_previous %}
+                        <li>
+                            <a href="?page={{ objets_page.previous_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded select text-white">Précédent</a>
+                        </li>
                         {% endif %}
+
+                        {% for num in objets_page.paginator.page_range %}
+                        {% if objets_page.number == num %}
+                        <li>
+                            <a href="?page={{ num }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded select text-white">{{ num }}</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="?page={{ num }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded bg-gray-200 text-blue-500">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if objets_page.has_next %}
+                        <li>
+                            <a href="?page={{ objets_page.next_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
+                                class="px-3 py-1 rounded select text-white">Suivant</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <!-- Main modal -->
+            <div id="modal" tabindex="-1" aria-hidden="true"
+                class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center">
+                <div class="relative p-4 w-full max-w-2xl max-h-full">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <img id="modal-image" src="" class="max-w-full" alt="Modal Image">
+                        <button class="mt-4 select hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            onclick="hideModal()">Fermer</button>
                     </div>
-                </td>
-                <td class="px-6 py-4">
-                    <a href="{% url 'gestMenb:Detail_membre_diacre' cle=membre.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">voir plus</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-  <div id="pages" class="flex justify-center mt-8 mb-2">
-    <ul class="pagination flex ">
-        {% if objets_page.has_previous %}
-        <li>
-            <a href="?page={{ objets_page.previous_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
-               class="px-3 py-1 rounded select text-white">Précédent</a>
-        </li>
-        {% endif %}
+                </div>
+            </div>
 
-        {% for num in objets_page.paginator.page_range %}
-        {% if objets_page.number == num %}
-        <li>
-            <a href="?page={{ num }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
-               class="px-3 py-1 rounded select text-white">{{ num }}</a>
-        </li>
-        {% else %}
-        <li>
-            <a href="?page={{ num }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
-               class="px-3 py-1 rounded bg-gray-200 text-blue-500">{{ num }}</a>
-        </li>
-        {% endif %}
-        {% endfor %}
-
-        {% if objets_page.has_next %}
-        <li>
-            <a href="?page={{ objets_page.next_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}"
-               class="px-3 py-1 rounded select text-white">Suivant</a>
-        </li>
-        {% endif %}
-    </ul>
-</div>
-</div>
-
-
-
-<!-- Main modal -->
-<div id="modal" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <img id="modal-image" src="" class="max-w-full" alt="Modal Image">
-            <button class="mt-4 select hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="hideModal()">Fermer</button>
         </div>
-    </div>
-</div>
-
-    </div>
-    <!-- /Main -->
+        <!-- /Main -->
         {% include 'includes/footer.html' %}
     </div>
 </div>
@@ -173,14 +224,14 @@ Membres
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-function showModal(imageUrl) {
-    document.getElementById('modal-image').src = imageUrl;
-    document.getElementById('modal').classList.remove('hidden');
-}
+    function showModal(imageUrl) {
+        document.getElementById('modal-image').src = imageUrl;
+        document.getElementById('modal').classList.remove('hidden');
+    }
 
-function hideModal() {
-    document.getElementById('modal').classList.add('hidden');
-}
+    function hideModal() {
+        document.getElementById('modal').classList.add('hidden');
+    }
 
 </script>
 {% endblock %}

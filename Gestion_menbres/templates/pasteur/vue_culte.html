@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}
+Culte
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+    {% include 'includes/culte.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/nav.html' %}
+        <!-- Main -->
+        <div class="h-full overflow-auto ">
+
+            <div class="flex flex-col items-start justify-between  space-y-2 m-4 md:flex md:flex-row md:space-y-0 ">
+
+                <h1 class="font-bold ">{{date_culte}}</h1>
+                <h1 class="font-bold ">{{heure_d}} | {{heure_f}} </h1>
+
+            </div>
+
+            <div class="flex flex-col items-start justify-between  space-y-2 m-4 md:flex md:flex-row md:space-y-0 ">
+
+                <h1 class="font-bold"><span  class="text-gray-500 font-thin dark:text-gray-400">Prédicateur</span> | {{predicateur}}</h1>
+                <h1 class="font-bold"><span  class="text-gray-500 font-thin dark:text-gray-400">Effectif</span> | {{effectif}}</h1>
+
+            </div>
+            <div class="flex flex-col items-start justify-between  space-y-2 m-4 md:flex md:flex-row md:space-y-0 ">
+
+                <h1 class="font-bold"><span  class="text-gray-500 font-thin dark:text-gray-400">Offrande Régulier</span> | {{regulier}} $</h1>
+                <h1 class="font-bold"><span  class="text-gray-500 font-thin dark:text-gray-400">Offrande de Construction</span> | {{construction}} $</h1>
+
+            </div>
+            <div class=" m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">Consécrations</h3>
+                <div class="bg-white p-4 rounded-xl shadow-sm ">
+                    {{ consecration|safe}}
+                </div>
+            </div>
+            <div class="m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">Anniversaires</h3>
+                <div class="bg-white p-4 rounded-xl shadow-sm ">
+                   {{ anniversaire|safe}}
+                </div>
+            </div>
+            <div class="m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">Rémerciements</h3>
+                <div class="bg-white p-4 rounded-xl shadow-sm ">
+                   {{ remerciement|safe}}
+                </div>
+            </div>
+            <div class="m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">Communiqués</h3>
+                <div class="bg-white p-4 rounded-xl shadow-sm ">
+                   {{ communiquer|safe}}
+                </div>
+            </div>
+            <div class="m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">Témoignages</h3>
+                <div class="bg-white p-4 rounded-xl shadow-sm ">
+                   {{ temoinage|safe}}
+                </div>
+            </div>
+            <div class="m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">Cantiques Spéciaux</h3>
+                <div class="bg-white p-4 rounded-xl shadow-sm ">
+                   {{ cantiques|safe}}
+                </div>
+            </div>
+            <div>
+                  {% if date_culte >= date_actuelle %}
+        <div class="m-4">
+            <a href="{% url 'gestMenb:Modifier_culte_pasteur' cle=cle %}" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Modifier
+            </a>
+        </div>
+                {% endif %}
+    </div>
+
+
+
+
+
+
+
+
+
+    </div>
+    <!-- /Main -->
+    {% include 'includes/footer.html' %}
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript de Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+{% endblock %}

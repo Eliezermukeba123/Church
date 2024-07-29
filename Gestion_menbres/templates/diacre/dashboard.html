@@ -13,7 +13,7 @@ Page d'acceuil
     <div class="h-full overflow-hidden">
       <main id="dashboard-main" class="h-[calc(100vh-10rem)] overflow-auto px-4 py-10">
         <!-- Put your content inside of the <main/> tag -->
-          <div class="bg-gray-100">
+          <div class="bg-gray-100 pb-4">
           <div class="grid grid-cols-1 py-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 m-4 ">
               <div class=" relative rounded-xl bg-white p-10 shadow-md">
                   <div class="absolute top-2 left-2">
@@ -54,7 +54,7 @@ Page d'acceuil
 
 
             </div>
-          <div class="flex   flex-wrap gap-x-4 gap-y-4 m-4">
+          <div class="flex  flex-wrap gap-x-4 gap-y-4 m-4">
                <div class=" lg:w-96 rounded-xl bg-white p-10 shadow-md md:w-full sm:w-full">
 
 
@@ -90,29 +90,29 @@ Page d'acceuil
 
 
                </div>
-               <div class=" lg:w-3/5 rounded-xl bg-white p-10 shadow-md sm:w-full  md:w-full">
+               <div class=" lg:w-3/5 rounded-xl bg-white p-10 shadow-md sm:w-full  md:w-full" >
                    <!-- Legend Indicator -->
 <div class="flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6 ">
   <div class="inline-flex items-center">
     <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
     <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-      Income
-    </span>
-  </div>
-  <div class="inline-flex items-center">
-    <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
-    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-      Outcome
+      Effectif Mensuel
     </span>
   </div>
 </div>
 <!-- End Legend Indicator -->
 
-<div id="hs-multiple-bar-charts"></div>
+<div id="hs-multiple-bar-charts"  data-series-January="{{January}}"  data-series-February="{{February}}" data-series-March="{{March}}"
+     data-series-April="{{April}}" data-series-May="{{May}}" data-series-June="{{June}}"
+     data-series-July="{{July}}" data-series-August="{{August}}" data-series-September="{{September}}"
+     data-series-October="{{October}}" data-series-November="{{November}}" data-series-December="{{December}}"
+
+
+></div>
                </div>
+              <!-- <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
                <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
-               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
-               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>-->
           </div>
      </div>
       </main>
@@ -137,6 +137,19 @@ Page d'acceuil
   window.addEventListener('load', () => {
     // Apex Multiple Bar Charts
     (function () {
+    const chartElement1 = document.getElementById('hs-multiple-bar-charts');
+    const seriesJanuary = parseFloat(chartElement1.dataset.seriesJanuary);
+    const seriesFebruary = parseFloat(chartElement1.dataset.seriesFebruary);
+    const seriesMarch = parseFloat(chartElement1.dataset.seriesMarch);
+    const seriesApril = parseFloat(chartElement1.dataset.seriesApril);
+    const seriesMay = parseFloat(chartElement1.dataset.seriesMay);
+    const seriesJune = parseFloat(chartElement1.dataset.seriesJune);
+    const seriesJuly = parseFloat(chartElement1.dataset.seriesJuly);
+    const seriesAugust = parseFloat(chartElement1.dataset.seriesAugust);
+    const seriesSeptember = parseFloat(chartElement1.dataset.seriesSeptember);
+    const seriesOctober = parseFloat(chartElement1.dataset.seriesOctober);
+    const seriesNovember = parseFloat(chartElement1.dataset.seriesNovember);
+    const seriesDecember = parseFloat(chartElement1.dataset.seriesDecember);
       buildChart('#hs-multiple-bar-charts', (mode) => ({
         chart: {
           type: 'bar',
@@ -150,12 +163,9 @@ Page d'acceuil
         },
         series: [
           {
-            name: 'Income',
-            data: [23000, 44000, 55000, 57000, 56000, 61000, 58000, 63000, 60000, 66000, 34000, 78000]
-          }, {
-            name: 'Outcome',
-            data: [17000, 76000, 85000, 101000, 98000, 87000, 105000, 91000, 114000, 94000, 67000, 66000]
-          }
+            name: 'Membres',
+            data: [seriesJanuary, seriesFebruary, seriesMarch, seriesApril, seriesMay, seriesJune, seriesJuly, seriesAugust,seriesSeptember, seriesOctober, seriesNovember, seriesDecember]
+          },
         ],
         plotOptions: {
           bar: {
@@ -171,7 +181,7 @@ Page d'acceuil
           enabled: false
         },
         stroke: {
-          show: true,
+          show: ture,
           width: 8,
           colors: ['transparent']
         },
@@ -221,7 +231,7 @@ Page d'acceuil
               fontFamily: 'Inter, ui-sans-serif',
               fontWeight: 400
             },
-            formatter: (value) => value >= 1000 ? `${value / 1000}k` : value
+            formatter: (value) => value >= 100000 ? `${value / 100000}00` : value
           }
         },
         states: {
@@ -234,7 +244,7 @@ Page d'acceuil
         },
         tooltip: {
           y: {
-            formatter: (value) => `$${value >= 1000 ? `${value / 1000}k` : value}`
+            formatter: (value) => `$${value >= 100000 ? `${value / 100000}` : value}`
           },
           custom: function (props) {
             const { categories } = props.ctx.opts.xaxis;
@@ -287,7 +297,7 @@ Page d'acceuil
                   fontFamily: 'Inter, ui-sans-serif',
                   fontWeight: 400
                 },
-                formatter: (value) => value >= 1000 ? `${value / 1000}k` : value
+                formatter: (value) => value >= 100000 ? `${value / 100000}` : value
               }
             },
           },
@@ -334,6 +344,8 @@ Page d'acceuil
     })();
   });
 </script>
+
+
 <script>
   window.addEventListener('load', () => {
     // Apex Pie Chart

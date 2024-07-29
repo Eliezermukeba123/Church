@@ -1,9 +1,54 @@
 mot de passe : AttaElRoi2024
 
 
-{% if user.is_authenticated %}
-    <h1>{{ user.username }}</h1>
-{% endif %}
+nom obligatoire :
+Login : pasteur, diacre
+table : Administrateur,Diacre,Prédicateur
 
 
-<a href="{% url 'admin:login' %}">Manage</a>
+
+
+droplist for pastor about notifications
+
+<div id="userDropdownN" class="z-10 hidden bg-white divide-y divide-gray-100 overflow-auto rounded-lg shadow w-72 max-h-[300px] dark:bg-gray-700 dark:divide-gray-600">
+    <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+        <div class="font-bold mb-2">Notifications</div>
+        <ul class="space-y-2">
+            <li>
+                <div class="font-bold mb-1">Nouvelle commande</div>
+                <a href="#" class="block font-medium text-gray-900 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors dark:text-gray-200 dark:hover:bg-gray-600 whitespace-normal">
+                    Commande #12345 passée le 25/05/2024 avec une description très longue qui dépasse la taille de la fenêtre et qui devrait passer à la ligne
+                </a>
+            </li>
+            <li>
+                <div class="font-bold mb-1">Promotion en cours</div>
+                <a href="#" class="block font-medium text-gray-900 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors dark:text-gray-200 dark:hover:bg-gray-600 whitespace-normal">
+                    Profitez de 20% de réduction jusqu'au 30/06/2024
+                </a>
+            </li>
+            <li>
+                <div class="font-bold mb-1">Rupture de stock</div>
+                <a href="#" class="block font-medium text-gray-900 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors dark:text-gray-200 dark:hover:bg-gray-600 whitespace-normal">
+                    L'article XYZ n'est plus disponible
+                </a>
+            </li>
+            <li>
+                <div class="font-bold mb-1">Livraison en cours</div>
+                <a href="#" class="block font-medium text-gray-900 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors dark:text-gray-200 dark:hover:bg-gray-600 whitespace-normal">
+                    Votre commande #54321 sera livrée demain
+                </a>
+            </li>
+            <li>
+                <div class="font-bold mb-1">Évaluation produit</div>
+                <a href="#" class="block font-medium text-gray-900 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors dark:text-gray-200 dark:hover:bg-gray-600 whitespace-normal">
+                    Partagez votre avis sur le produit XYZ
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+        <div class="py-1">
+            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Déconnexion</a>
+        </div>
+    </div>

@@ -1,8 +1,11 @@
+from datetime import date
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.core.paginator import Paginator
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -13,14 +16,17 @@ from django.urls import reverse
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.utils import timezone
 from django.utils.timezone import now
+from django.views.decorators.csrf import csrf_exempt
 
-from .filters import OrderFilter, QuartierFilter, FonctionFilter, DiacreFilter, AdministateurFilter, EvenementFilter
+from .filters import OrderFilter, QuartierFilter, FonctionFilter, DiacreFilter, AdministateurFilter, EvenementFilter, \
+    CulteFilter
 from .forms import UserLoginForm, MenbresForm, QuartierForm, FonctionForm, DiacreForm, AdministateurForm, ComiteForm, \
-    EvenementForm
+    EvenementForm, CulteForm
 from django.urls import reverse
 
-from .models import Menbres, Quartier, Evenement, Fonction, Diacre, Administateur, Comite
+from .models import Menbres, Quartier, Evenement, Fonction, Diacre, Administateur, Comite, Culte
 
 
 def login_view(request):
@@ -55,6 +61,34 @@ def logout_view(request):
     return redirect('gestMenb:login_view')
 
 
+def nombre_mois_membre(year):
+    January = Culte.objects.filter(date__year=year, date__month=1).aggregate(total=Sum('nombre_membres'))['total']
+    February = Culte.objects.filter(date__year=year, date__month=2).aggregate(total=Sum('nombre_membres'))['total']
+    March = Culte.objects.filter(date__year=year, date__month=3).aggregate(total=Sum('nombre_membres'))['total']
+    April = Culte.objects.filter(date__year=year, date__month=4).aggregate(total=Sum('nombre_membres'))['total']
+    May = Culte.objects.filter(date__year=year, date__month=5).aggregate(total=Sum('nombre_membres'))['total']
+    June = Culte.objects.filter(date__year=year, date__month=6).aggregate(total=Sum('nombre_membres'))['total']
+    July = Culte.objects.filter(date__year=year, date__month=7).aggregate(total=Sum('nombre_membres'))['total']
+    August = Culte.objects.filter(date__year=year, date__month=8).aggregate(total=Sum('nombre_membres'))['total']
+    September = Culte.objects.filter(date__year=year, date__month=9).aggregate(total=Sum('nombre_membres'))['total']
+    October = Culte.objects.filter(date__year=year, date__month=10).aggregate(total=Sum('nombre_membres'))['total']
+    November = Culte.objects.filter(date__year=year, date__month=11).aggregate(total=Sum('nombre_membres'))['total']
+    December = Culte.objects.filter(date__year=year, date__month=12).aggregate(total=Sum('nombre_membres'))['total']
+    JanuaryO = Culte.objects.filter(date__year=year, date__month=1).aggregate(total=Sum('nombre_offrandes'))['total']
+    FebruaryO = Culte.objects.filter(date__year=year, date__month=2).aggregate(total=Sum('nombre_offrandes'))['total']
+    MarchO = Culte.objects.filter(date__year=year, date__month=3).aggregate(total=Sum('nombre_offrandes'))['total']
+    AprilO = Culte.objects.filter(date__year=year, date__month=4).aggregate(total=Sum('nombre_offrandes'))['total']
+    MayO = Culte.objects.filter(date__year=year, date__month=5).aggregate(total=Sum('nombre_offrandes'))['total']
+    JuneO = Culte.objects.filter(date__year=year, date__month=6).aggregate(total=Sum('nombre_offrandes'))['total']
+    JulyO = Culte.objects.filter(date__year=year, date__month=7).aggregate(total=Sum('nombre_offrandes'))['total']
+    AugustO = Culte.objects.filter(date__year=year, date__month=8).aggregate(total=Sum('nombre_offrandes'))['total']
+    SeptemberO = Culte.objects.filter(date__year=year, date__month=9).aggregate(total=Sum('nombre_offrandes'))['total']
+    OctoberO = Culte.objects.filter(date__year=year, date__month=10).aggregate(total=Sum('nombre_offrandes'))['total']
+    NovemberO = Culte.objects.filter(date__year=year, date__month=11).aggregate(total=Sum('nombre_offrandes'))['total']
+    DecemberO = Culte.objects.filter(date__year=year, date__month=12).aggregate(total=Sum('nombre_offrandes'))['total']
+    return January, February, March, April, May, June, July, August, September, October, November, December, JanuaryO, FebruaryO, MarchO, AprilO, MayO, JuneO, JulyO, AugustO, SeptemberO, OctoberO, NovemberO, DecemberO
+
+
 @login_required(login_url='gestMenb:login_view')
 def Page_acceuil(request):
     return render(request, "acceuil/page_acceuil.html")
@@ -63,7 +97,14 @@ def Page_acceuil(request):
 @login_required(login_url='gestMenb:login_view')
 def Pasteur_view(request):
     membres = Menbres.objects.all().count()
-    events = Evenement.objects.all().count()
+    culte = Culte.objects.latest('id')
+    offrande  = culte.nombre_offrandes
+    actuel = timezone.now()
+    current_year = actuel.year
+    current_month = actuel.month
+    events = Evenement.objects.filter(date_even__year=current_year, date_even__month=current_month).count()
+    January, February, March, April, May, June, July, August, September, October, November, December, JanuaryO, FebruaryO, MarchO, AprilO, MayO, JuneO, JulyO, AugustO, SeptemberO, OctoberO, NovemberO, DecemberO = nombre_mois_membre(current_year)
+
     if membres == 0:
         pourcentage_homme = 50
         pourcentage_femme = 50
@@ -79,7 +120,19 @@ def Pasteur_view(request):
 
     return render(request, "pasteur/dashboard.html", context={"membres": membres, "events": events,
                                                               "pourcentage_homme": pourcentage_homme,
-                                                              "pourcentage_femme": pourcentage_femme})
+                                                              "pourcentage_femme": pourcentage_femme,
+                                                              "January": January,
+                                                              "February": February, "March": March, "April": April,
+                                                              "May": May, "June": June, "July": July, "August": August,
+                                                              "September": September, "October": October,
+                                                              "November": November, "December": December,
+                                                              "JanuaryO": JanuaryO,
+                                                              "FebruaryO": FebruaryO, "MarchO": MarchO, "AprilO": AprilO,
+                                                              "MayO": MayO, "JuneO": JuneO, "JulyO": JulyO, "AugustO": AugustO,
+                                                              "SeptemberO": SeptemberO, "OctoberO": OctoberO,
+                                                              "NovemberO": NovemberO, "DecemberO": DecemberO,
+                                                              "offrande" : offrande
+                                                              })
 
 
 @login_required(login_url='gestMenb:login_view')
@@ -89,7 +142,7 @@ def Menbres_view(request):
     myFilter = OrderFilter(request.GET, queryset=list_menbres)
     filtered_menbres = myFilter.qs
     nombre = filtered_menbres.count()
-    paginator = Paginator(filtered_menbres, 2)  # Paginer les objets avec 10 objets par page
+    paginator = Paginator(filtered_menbres, 20)  # Paginer les objets avec 10 objets par page
     page = request.GET.get('page')
     objets_page = paginator.get_page(page)
     list_quartier = Quartier.objects.all()
@@ -104,11 +157,88 @@ def Detail_membre(request, cle):
     return render(request, "pasteur/membres_detail.html", context={"menbre": menbre})
 
 
-# DIACRE --------------- PRINCIPAL
+@login_required(login_url='gestMenb:login_view')
+def culte_consultation_pasteur(request):
+    list_cultes = Culte.objects.order_by('-id')
+    myFilter = CulteFilter(request.GET, queryset=list_cultes)
+    filtered_cultes = myFilter.qs
+    nombre = filtered_cultes.count()
+    paginator = Paginator(filtered_cultes, 10)  # Paginer les objets avec 10 objets par page
+    page = request.GET.get('page')
+    objets_page = paginator.get_page(page)
+    date_actuelle = date.today()
+
+    return render(request, 'pasteur/consulter_culte.html', context={"objets_page": objets_page,
+                                                                    "nombre": nombre,
+                                                                    "myFilter": myFilter,
+                                                                    "date_actuelle": date_actuelle})
+
+
+@login_required(login_url='gestMenb:login_view')
+def vue_culte_pasteur(request, cle):
+    date_actuelle = date.today()
+    culte = Culte.objects.get(id=cle)
+    date_culte = culte.date
+    heure_d = culte.heure_debut
+    heure_f = culte.heure_fin
+    effectif = culte.nombre_membres
+    communiquer = culte.communication
+    temoinage = culte.temoignages_du_jour
+    cantiques = culte.cantiques_speciaux
+    anniversaire = culte.anniversaire
+    consecration = culte.consecration
+    remerciement = culte.remerciement
+    predicateur = culte.predicateur
+    regulier = culte.nombre_offrandes
+    construction = culte.nombre_construction
+    if predicateur:
+        predic = predicateur
+    else:
+        predic = culte.predicateur_visiteur
+
+    return render(request, 'pasteur/vue_culte.html',
+                  context={"date_culte": date_culte, "predicateur": predic, "heure_d": heure_d, "heure_f": heure_f,
+                           "effectif": effectif, "communiquer": communiquer, "temoinage": temoinage,
+                           "cantiques": cantiques, "anniversaire": anniversaire, "consecration": consecration,
+                           "remerciement": remerciement, "date_actuelle": date_actuelle, "cle": cle,
+                           "regulier": regulier, "construction": construction})
+
+
+@login_required(login_url='gestMenb:login_view')
+def Modifier_culte_pasteur(request, cle):
+    culte = Culte.objects.get(id=cle)
+    date_culte = culte.date
+    date = culte.date
+    if request.method == 'POST':
+        form = CulteForm(request.POST, instance=culte)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Le culte du {date} a été modifié!')
+            return redirect('gestMenb:culte_consultation_pasteur')
+
+        else:
+            print(form.errors)
+            messages.error(request, "Une erreur est survenue lors de la mise à jour.")
+            return redirect('gestMenb:Modifier_culte_pasteur', cle=cle)
+    else:
+        form = CulteForm(instance=culte)
+        return render(request, 'pasteur/modifier_culte.html',
+                      context={"form": form, "date_culte": date_culte})
+
+
+# DIACRE ---------------------------------------------------------------------------- PRINCIPAL
+
+
 @login_required(login_url='gestMenb:login_view')
 def Diacre_view(request):
     membres = Menbres.objects.all().count()
-    events = Evenement.objects.all().count()
+    actuel = timezone.now()
+    current_year = actuel.year
+    current_month = actuel.month
+    events = Evenement.objects.filter(date_even__year=current_year, date_even__month=current_month).count()
+    January, February, March, April, May, June, July, August, September, October, November, December, JanuaryO, FebruaryO, MarchO, AprilO, MayO, JuneO, JulyO, AugustO, SeptemberO, OctoberO, NovemberO, DecemberO = nombre_mois_membre(
+        current_year)
+
     if membres == 0:
         pourcentage_homme = 50
         pourcentage_femme = 50
@@ -124,7 +254,11 @@ def Diacre_view(request):
 
     return render(request, "diacre/dashboard.html", context={"membres": membres, "events": events,
                                                              "pourcentage_homme": pourcentage_homme,
-                                                             "pourcentage_femme": pourcentage_femme})
+                                                             "pourcentage_femme": pourcentage_femme, "January": January,
+                                                             "February": February, "March": March, "April": April,
+                                                             "May": May, "June": June, "July": July, "August": August,
+                                                             "September": September, "October": October,
+                                                             "November": November, "December": December})
 
 
 @login_required(login_url='gestMenb:login_view')
@@ -133,7 +267,7 @@ def Menbres_diacre_view(request):
     myFilter = OrderFilter(request.GET, queryset=list_menbres)
     filtered_menbres = myFilter.qs
     nombre = filtered_menbres.count()
-    paginator = Paginator(filtered_menbres, 2)  # Paginer les objets avec 10 objets par page
+    paginator = Paginator(filtered_menbres, 20)  # Paginer les objets avec 10 objets par page
     page = request.GET.get('page')
     objets_page = paginator.get_page(page)
     list_quartier = Quartier.objects.all()
@@ -146,6 +280,17 @@ def Menbres_diacre_view(request):
 def Detail_membre_diacre(request, cle):
     menbre = Menbres.objects.get(id=cle)
     return render(request, "diacre/membres_detail.html", context={"menbre": menbre})
+
+
+@login_required(login_url='gestMenb:login_view')
+@csrf_exempt
+def delete_membre(request, cle):
+    try:
+        membre = Menbres.objects.get(id=cle)
+        membre.delete()
+        return JsonResponse({'status': 'success'})
+    except Evenement.DoesNotExist:
+        return JsonResponse({'status': 'fail', 'message': 'Item not found'}, status=404)
 
 
 @login_required(login_url='gestMenb:login_view')
@@ -164,7 +309,7 @@ def Ajouter_membre_diacre(request):
                 form.save()
                 messages.success(request, 'success')
 
-                return redirect('gestMenb:Ajouter_membre_diacre')
+                return redirect('gestMenb:Menbres_diacre_view')
         else:
             messages.error(request, "Une erreur est survenue lors de l'enregistrement du membre, Veuillez remplir "
                                     "tous les champs.")
@@ -317,7 +462,7 @@ def Diacres_view(request):
     myFilter = DiacreFilter(request.GET, queryset=diacres)
     filtered_menbres = myFilter.qs
     nombre = filtered_menbres.count()
-    paginator = Paginator(filtered_menbres, 2)  # Paginer les objets avec 10 objets par page
+    paginator = Paginator(filtered_menbres, 10)  # Paginer les objets avec 10 objets par page
     page = request.GET.get('page')
     objets_page = paginator.get_page(page)
     list_quartier = Quartier.objects.all()
@@ -389,7 +534,7 @@ def Administrateur_view(request):
     myFilter = AdministateurFilter(request.GET, queryset=administrateurs)
     filtered_menbres = myFilter.qs
     nombre = filtered_menbres.count()
-    paginator = Paginator(filtered_menbres, 2)  # Paginer les objets avec 10 objets par page
+    paginator = Paginator(filtered_menbres, 10)  # Paginer les objets avec 10 objets par page
     page = request.GET.get('page')
     objets_page = paginator.get_page(page)
     return render(request, "diacre/administrateur.html", context={"objets_page": objets_page,
@@ -468,14 +613,14 @@ def Comite_view(request):
 
 @login_required(login_url='gestMenb:login_view')
 def Comite_quartier(request, cle):
-
     quartier = Quartier.objects.get(id=cle)
     quartier_nom = quartier.nom
     if Comite.objects.filter(quartier=quartier).exists():
         objets_page = Comite.objects.filter(quartier=quartier)
-        return render(request, "diacre/comites.html", context={"objets_page":objets_page, "quartier_nom":quartier_nom, "cle":cle})
+        return render(request, "diacre/comites.html",
+                      context={"objets_page": objets_page, "quartier_nom": quartier_nom, "cle": cle})
     else:
-        return render(request, "diacre/comite.html",context={"cle":cle,"quartier_nom":quartier_nom})
+        return render(request, "diacre/comite.html", context={"cle": cle, "quartier_nom": quartier_nom})
 
 
 @login_required(login_url='gestMenb:login_view')
@@ -529,9 +674,8 @@ def Modifier_comite(request, cle):
         return render(request, 'diacre/modifier_comite.html', context={"form": form})
 
 
-
 @login_required(login_url='gestMenb:login_view')
-def Supprimer_Menbre_comite(request,cle):
+def Supprimer_Menbre_comite(request, cle):
     comite = Comite.objects.get(id=cle)
     nom = comite.quartier.nom
     comite.delete()
@@ -558,8 +702,9 @@ def Evenements(request):
             return redirect('gestMenb:Evenement')
     else:
         form = EvenementForm()
-    return render(request,"diacre/Evenement.html", context={"Events": filtered_menbres, "evenement_filter": evenement_filter, "nombre": nombre, "form": form})
-
+    return render(request, "diacre/Evenement.html",
+                  context={"Events": filtered_menbres, "evenement_filter": evenement_filter, "nombre": nombre,
+                           "form": form})
 
 
 @login_required(login_url='gestMenb:login_view')
@@ -570,7 +715,7 @@ def Detail_Evenements(request, cle):
     event_date = events.date_even
     if event_date:
         if event_date < today:
-           event_passe = "Passé"
+            event_passe = "Passé"
         else:
 
             time_remaining = event_date - today
@@ -581,7 +726,7 @@ def Detail_Evenements(request, cle):
         form = EvenementForm(request.POST, instance=event_id)
         if form.is_valid():
             form.save()
-            messages.success(request,"Evénement mis à jour avec succès")
+            messages.success(request, "Evénement mis à jour avec succès")
             return redirect('gestMenb:Evenement')
 
         else:
@@ -591,6 +736,112 @@ def Detail_Evenements(request, cle):
         form = EvenementForm(instance=event_id)
 
     return render(request, "diacre/detail_Evenement.html",
-                  context={"events": events, "event_passe":event_passe, "form":form, "membres_selectionnes": membres_selectionnes})
+                  context={"events": events, "event_passe": event_passe, "form": form,
+                           "membres_selectionnes": membres_selectionnes})
 
 
+@login_required(login_url='gestMenb:login_view')
+@csrf_exempt
+def delete_event(request, cle):
+    try:
+        event = Evenement.objects.get(id=cle)
+        event.delete()
+        return JsonResponse({'status': 'success'})
+    except Evenement.DoesNotExist:
+        return JsonResponse({'status': 'fail', 'message': 'Item not found'}, status=404)
+
+
+@login_required(login_url='gestMenb:login_view')
+def culte(request):
+    return render(request, "diacre/culte.html")
+
+
+@login_required(login_url='gestMenb:login_view')
+def culte_create(request):
+    if request.method == 'POST':
+        form = CulteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Un culte à été ajouté avec succès")
+            return redirect('gestMenb:culte_consultation')
+    else:
+        initial_data = {'date': date.today()}
+        form = CulteForm(initial=initial_data)
+
+    return render(request, 'diacre/demarrer_culte.html', {'form': form})
+
+
+@login_required(login_url='gestMenb:login_view')
+def culte_consultation(request):
+    list_cultes = Culte.objects.order_by('-id')
+    myFilter = CulteFilter(request.GET, queryset=list_cultes)
+    filtered_cultes = myFilter.qs
+    nombre = filtered_cultes.count()
+    paginator = Paginator(filtered_cultes, 10)  # Paginer les objets avec 10 objets par page
+    page = request.GET.get('page')
+    objets_page = paginator.get_page(page)
+    date_actuelle = date.today()
+
+    return render(request, 'diacre/consulter_culte.html', context={"objets_page": objets_page,
+                                                                   "nombre": nombre,
+                                                                   "myFilter": myFilter,
+                                                                   "date_actuelle": date_actuelle})
+
+
+@login_required(login_url='gestMenb:login_view')
+def vue_culte(request, cle):
+    culte = Culte.objects.get(id=cle)
+    date_actuelle = date.today()
+    date_culte = culte.date
+    heure_d = culte.heure_debut
+    heure_f = culte.heure_fin
+    effectif = culte.nombre_membres
+    communiquer = culte.communication
+    temoinage = culte.temoignages_du_jour
+    cantiques = culte.cantiques_speciaux
+    anniversaire = culte.anniversaire
+    consecration = culte.consecration
+    remerciement = culte.remerciement
+    predicateur = culte.predicateur
+    if predicateur:
+        predic = predicateur
+    else:
+        predic = culte.predicateur_visiteur
+
+    return render(request, 'diacre/vue_culte.html',
+                  context={"date_culte": date_culte, "predicateur": predic, "heure_d": heure_d, "heure_f": heure_f,
+                           "effectif": effectif, "communiquer": communiquer, "temoinage": temoinage,
+                           "cantiques": cantiques, "anniversaire": anniversaire, "consecration": consecration,
+                           "remerciement": remerciement, "date_actuelle": date_actuelle, "cle": cle})
+
+
+@login_required(login_url='gestMenb:login_view')
+def Modifier_culte(request, cle):
+    culte = Culte.objects.get(id=cle)
+    date = culte.date
+    diacres_selectionnes = culte.diacres.all().values_list('id', flat=True)
+    if request.method == 'POST':
+        form = CulteForm(request.POST, instance=culte)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Le culte du {date} a été modifié!')
+            return redirect('gestMenb:culte_consultation')
+
+        else:
+            messages.error(request, "Une erreur est survenue lors de la mise à jour.")
+            return redirect('gestMenb:Modifier_culte', cle=cle)
+    else:
+        form = CulteForm(instance=culte)
+        return render(request, 'diacre/modifier_culte.html',
+                      context={"form": form, "diacres_selectionnes": diacres_selectionnes})
+
+
+@login_required(login_url='gestMenb:login_view')
+@csrf_exempt
+def delete_culte(request, cle):
+    try:
+        culte = Culte.objects.get(id=cle)
+        culte.delete()
+        return JsonResponse({'status': 'success'})
+    except Culte.DoesNotExist:
+        return JsonResponse({'status': 'fail', 'message': 'Item not found'}, status=404)

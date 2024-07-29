@@ -39,23 +39,6 @@ Page d'acceuil
                               <div class="flex flex-row space-x-2">
 
                                   <i class="fa-solid fa-calendar-days fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
-                              <h1 class="font-serif">Evénements du mois</h1>
-                              </div>
-
-
-
-                          </div>
-                  <div class="flex items-center justify-center">
-                            <!-- Nombre au milieu -->
-                            <span class="text-2xl font-bold font-sans">{{events}}</span>
-                          </div>
-
-              </div>
-              <div class=" relative rounded-xl bg-white p-10 shadow-md">
-                  <div class="absolute top-2 left-2">
-                            <!-- Icône en haut à gauche -->
-                              <div class="flex flex-row space-x-2">
-                                  <i class="fa-solid fa-money-check-dollar fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
                               <h1 class="font-serif">Dîme</h1>
                               </div>
 
@@ -64,7 +47,7 @@ Page d'acceuil
                           </div>
                   <div class="flex items-center justify-center">
                             <!-- Nombre au milieu -->
-                            <span class="text-2xl font-bold font-sans">123 $</span>
+                            <span class="text-2xl font-bold font-sans">0 $</span>
                           </div>
 
               </div>
@@ -73,7 +56,24 @@ Page d'acceuil
                             <!-- Icône en haut à gauche -->
                               <div class="flex flex-row space-x-2">
                                   <i class="fa-solid fa-money-check-dollar fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
-                              <h1 class="font-serif">Offrandes</h1>
+                              <h1 class="font-serif">Off. Construction</h1>
+                              </div>
+
+
+
+                          </div>
+                  <div class="flex items-center justify-center">
+                            <!-- Nombre au milieu -->
+                            <span class="text-2xl font-bold font-sans">0 $</span>
+                          </div>
+
+              </div>
+              <div class=" relative rounded-xl bg-white p-10 shadow-md">
+                  <div class="absolute top-2 left-2">
+                            <!-- Icône en haut à gauche -->
+                              <div class="flex flex-row space-x-2">
+                                  <i class="fa-solid fa-money-check-dollar fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
+                              <h1 class="font-serif">Off. Régulière</h1>
                               </div>
 
 
@@ -82,7 +82,7 @@ Page d'acceuil
                   <div class="flex items-center justify-center">
                             <!-- Nombre au milieu -->
 
-                            <span class="text-2xl font-bold font-sans">234 $</span>
+                            <span class="text-2xl font-bold font-sans">{{offrande}} $</span>
 
                           </div>
 
@@ -90,7 +90,7 @@ Page d'acceuil
               </div>
 
             </div>
-          <div class="flex   flex-wrap gap-x-4 gap-y-4 m-4">
+          <div class="flex  pb-4  flex-wrap gap-x-4 gap-y-4 m-4">
                <div class=" lg:w-96 rounded-xl bg-white p-10 shadow-md md:w-full sm:w-full">
 
 
@@ -132,23 +132,28 @@ Page d'acceuil
   <div class="inline-flex items-center">
     <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
     <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-      Income
+      Effectif mensuel
     </span>
   </div>
   <div class="inline-flex items-center">
     <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
     <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-      Outcome
+      Offrande Mensuel
     </span>
   </div>
 </div>
 <!-- End Legend Indicator -->
 
-<div id="hs-multiple-bar-charts"></div>
+<div id="hs-multiple-bar-charts"  data-series-January="{{January}}"  data-series-February="{{February}}" data-series-March="{{March}}"
+     data-series-April="{{April}}" data-series-May="{{May}}" data-series-June="{{June}}"
+     data-series-July="{{July}}" data-series-August="{{August}}" data-series-September="{{September}}"
+     data-series-October="{{October}}" data-series-November="{{November}}" data-series-December="{{December}}"
+     data-series-Ja="{{JanuaryO}}"  data-series-Feb="{{FebruaryO}}" data-series-Mar="{{MarchO}}"
+     data-series-Apr="{{AprilO}}" data-series-Ma="{{MayO}}" data-series-Jun="{{JuneO}}"
+     data-series-Jul="{{JulyO}}" data-series-Aug="{{AugustO}}" data-series-Sept="{{SeptemberO}}"
+     data-series-Oct="{{OctoberO}}" data-series-Nov="{{NovemberO}}" data-series-Dec="{{DecemberO}}"></div>
                </div>
-               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
-               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
-               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+
           </div>
      </div>
       </main>
@@ -173,6 +178,32 @@ Page d'acceuil
   window.addEventListener('load', () => {
     // Apex Multiple Bar Charts
     (function () {
+    const chartElement1 = document.getElementById('hs-multiple-bar-charts');
+    const seriesJanuary = parseFloat(chartElement1.dataset.seriesJanuary);
+    const seriesFebruary = parseFloat(chartElement1.dataset.seriesFebruary);
+    const seriesMarch = parseFloat(chartElement1.dataset.seriesMarch);
+    const seriesApril = parseFloat(chartElement1.dataset.seriesApril);
+    const seriesMay = parseFloat(chartElement1.dataset.seriesMay);
+    const seriesJune = parseFloat(chartElement1.dataset.seriesJune);
+    const seriesJuly = parseFloat(chartElement1.dataset.seriesJuly);
+    const seriesAugust = parseFloat(chartElement1.dataset.seriesAugust);
+    const seriesSeptember = parseFloat(chartElement1.dataset.seriesSeptember);
+    const seriesOctober = parseFloat(chartElement1.dataset.seriesOctober);
+    const seriesNovember = parseFloat(chartElement1.dataset.seriesNovember);
+    const seriesDecember = parseFloat(chartElement1.dataset.seriesDecember);
+
+    const seriesJa = parseFloat(chartElement1.dataset.seriesJa);
+    const seriesFeb = parseFloat(chartElement1.dataset.seriesFeb);
+    const seriesMar = parseFloat(chartElement1.dataset.seriesMar);
+    const seriesApr = parseFloat(chartElement1.dataset.seriesApr);
+    const seriesMa = parseFloat(chartElement1.dataset.seriesMa);
+    const seriesJun = parseFloat(chartElement1.dataset.seriesJun);
+    const seriesJul = parseFloat(chartElement1.dataset.seriesJul);
+    const seriesAug = parseFloat(chartElement1.dataset.seriesAug);
+    const seriesSept = parseFloat(chartElement1.dataset.seriesSept);
+    const seriesOct = parseFloat(chartElement1.dataset.seriesOct);
+    const seriesNov = parseFloat(chartElement1.dataset.seriesNov);
+    const seriesDec = parseFloat(chartElement1.dataset.seriesDec);
       buildChart('#hs-multiple-bar-charts', (mode) => ({
         chart: {
           type: 'bar',
@@ -186,11 +217,11 @@ Page d'acceuil
         },
         series: [
           {
-            name: 'Income',
-            data: [23000, 44000, 55000, 57000, 56000, 61000, 58000, 63000, 60000, 66000, 34000, 78000]
+            name: 'Membres',
+            data: [seriesJanuary, seriesFebruary, seriesMarch, seriesApril, seriesMay, seriesJune, seriesJuly, seriesAugust,seriesSeptember, seriesOctober, seriesNovember, seriesDecember]
           }, {
-            name: 'Outcome',
-            data: [17000, 76000, 85000, 101000, 98000, 87000, 105000, 91000, 114000, 94000, 67000, 66000]
+            name: 'Offrande Mensuel',
+            data: [seriesJa, seriesFeb, seriesMar, seriesApr, seriesMa, seriesJun, seriesJul, seriesAug,seriesSept, seriesOct, seriesNov, seriesDec]
           }
         ],
         plotOptions: {
@@ -257,7 +288,7 @@ Page d'acceuil
               fontFamily: 'Inter, ui-sans-serif',
               fontWeight: 400
             },
-            formatter: (value) => value >= 1000 ? `${value / 1000}k` : value
+            formatter: (value) => value >= 100000 ? `${value / 100000}00` : value
           }
         },
         states: {
@@ -270,7 +301,7 @@ Page d'acceuil
         },
         tooltip: {
           y: {
-            formatter: (value) => `$${value >= 1000 ? `${value / 1000}k` : value}`
+            formatter: (value) => `$${value >= 100000 ? `${value / 100000}00` : value}`
           },
           custom: function (props) {
             const { categories } = props.ctx.opts.xaxis;
@@ -323,7 +354,7 @@ Page d'acceuil
                   fontFamily: 'Inter, ui-sans-serif',
                   fontWeight: 400
                 },
-                formatter: (value) => value >= 1000 ? `${value / 1000}k` : value
+                formatter: (value) => value >= 100000 ? `${value / 100000}00` : value
               }
             },
           },
