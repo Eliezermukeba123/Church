@@ -98,10 +98,7 @@ Culte
                                 Effectif
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Status DIAGONA
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Status ADMINISTRATION
+                                Status
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Action
@@ -128,15 +125,6 @@ Culte
                             </td>
                             <td class="px-6 py-4">
                                 {% if culte.status == 0%}
-
-                                <i class="fa-regular fa-circle-xmark items-center justify-center fa-xl text-red-500"></i>
-                                {% else %}
-                                 <i class="fa-solid fa-check items-center justify-center fa-xl text-blue-500 "></i>
-                                {% endif %}
-
-                            </td>
-                            <td class="px-6 py-4">
-                                {% if culte.status_admin == 0%}
 
                                 <i class="fa-regular fa-circle-xmark items-center justify-center fa-xl text-red-500"></i>
                                 {% else %}

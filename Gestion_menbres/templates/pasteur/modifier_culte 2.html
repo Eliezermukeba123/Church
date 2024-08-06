@@ -55,8 +55,7 @@ Culte
 
 
            <form method="post" enctype="multipart/form-data" class="bg-gray-100 p-8 rounded-lg shadow-md">
-
-                 <h1 class="text-4xl font-black text-gray-900 dark:text-white text-center">DIAGONA</h1>
+               <h1 class="text-center text-Bold m-4 text-xl text-gray-900">DIAGONA</h1>
     {% csrf_token %}
     {{ form.media}}
      <div class="flex flex-col w-full  space-y-4">
@@ -135,33 +134,13 @@ Culte
 
         </div>
 
-          <h1 class="text-4xl font-black text-gray-900 dark:text-white text-center">ADMINISTRATION</h1>
-         <div class="flex flex-col md:flex md:flex-row mb-4 md:space-x-2">
-            <label  class="block text-sm font-bold text-red-700">Cochez la case suivante pour approuver les offrandes !</label>
-            {{form.status_admin|add_class:"mt-1 focus:border-bright focus:outline-none block  border-red-300 "}}
-
-        </div>
-
-         <div class=" m-4">
-                <div class="flex flex-col space-y-2 md:flex md:flex md:space-y-0 md:flex-row md:w-full">
-                    <div class="p-8 bg-brightBlue md:flex-col md:w-1/2">
-                        <p class="text-xl font-thin text-gray-900 dark:text-white  mt-0 text-left">{{ form.nombre_offrandes.label }}</p>
-                           <p class="text-4xl font-black text-gray-900 dark:text-white text-center">  {{form.nombre_offrandes.value }} $</p>
-                    </div>
-                    <div class="p-8 bg-brightGreen md:flex-col md:w-1/2">
-                        <p class="text-xl font-thin text-gray-900 dark:text-white    text-right">{{ form.nombre_construction.label }}</p>
-                   <p class="text-4xl font-black text-gray-900 dark:text-white text-center">{{ form.nombre_construction.value }} $</p>
-                    </div>
-                </div>
-            </div>
-
 
 
 
 
     <div class="col-span-1 sm:col-span-4 mt-4">
         <div class="flex items-center justify-end">
-            <button type="submit"  class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="submit" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Enregistrer
             </button>
         </div>

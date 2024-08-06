@@ -37,6 +37,13 @@
 	<script src="{% static 'lodash/lodash.min.js' %}"></script>
 	<script src="{% static 'apexcharts/dist/apexcharts.min.js' %}"></script>
 	 <script src="https://preline.co/assets/js/hs-apexcharts-helpers.js"></script>
+	<script src="https://unpkg.com/htmx.org@1.1.0"></script>
+    <script>
+      document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+      })
+    </script>
+
 
 
 	</body>

@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
+
+from .AdminViews import Admin_view, culte_consultation_admin, vue_culte_admin, Modifier_culte_admin
 from .views import Page_acceuil, login_view, Pasteur_view, Menbres_view, Detail_membre, logout_view, Diacre_view, \
     Menbres_diacre_view, Detail_membre_diacre, Ajouter_membre_diacre, Modifier_menbre, Quartier_view, \
     Supprimer_Quartier, Modifier_Quartier, Fonction_view, Modifier_Fonction, Supprimer_Fonction, Diacres_view, \
@@ -10,7 +12,7 @@ from .views import Page_acceuil, login_view, Pasteur_view, Menbres_view, Detail_
 
 app_name = 'gestMenb'
 urlpatterns = [
-    # Admin -------------------------------------------------------------------------------------
+    # Admin system -------------------------------------------------------------------------------------
 
     path('', login_view, name='login_view'),
     path('logout/', logout_view, name='logout'),
@@ -57,7 +59,11 @@ urlpatterns = [
     path('Diacre/Culte_Modifie/<int:cle>/', Modifier_culte, name='Modifier_culte'),
     path('Diacre/Culte_Supprimer/<int:cle>/', delete_culte, name='delete_culte'),
 
-
+    # Administrateur
+    path('Administrateur', Admin_view, name='Admin_view'),
+    path('Administrateur/Cultes', culte_consultation_admin, name='culte_consultation_admin'),
+    path('Administrateur/Culte/<int:cle>/', vue_culte_admin, name='vue_culte_admin'),
+    path('Administrateur/Culte_Modifier/<int:cle>/', Modifier_culte_admin, name='Modifier_culte_admin'),
 
 
 

@@ -7,15 +7,14 @@ Culte
 
 
 <div class="bg-slate-200 flex h-screen">
-    {% include 'includes/culte.html' %}
+   {% include 'includes/admin/culte.html' %}
     <div class="flex h-full w-full flex-col">
-        {% include 'includes/nav.html' %}
+         {% include 'includes/admin/nav.html' %}
         <!-- Main -->
         <div class="h-full overflow-auto ">
             <p class="text-xl font-extrabold  mt-8 text-gray-900 dark:text-white ml-4  mb-4"><span
-                    class="text-gray-500 font-thin dark:text-gray-400">Culte</span> | {{date_culte}}</p>
-
-   {% if messages %}
+                    class="text-gray-500 font-thin dark:text-gray-400">Cultes</span> | Modifier un culte</p>
+{% if messages %}
     {% for message in messages %}
       <div class="flex flex-col gap-3 mb-4">
           {% if message.tags == 'error' %}
@@ -51,26 +50,18 @@ Culte
     {% endfor %}
   {% endif %}
 
-
-
-
            <form method="post" enctype="multipart/form-data" class="bg-gray-100 p-8 rounded-lg shadow-md">
-
-                 <h1 class="text-4xl font-black text-gray-900 dark:text-white text-center">DIAGONA</h1>
     {% csrf_token %}
     {{ form.media}}
      <div class="flex flex-col w-full  space-y-4">
-          <div class="flex flex-col md:flex md:flex-row md:space-x-2">
-            <label  class="block text-sm font-bold text-red-700">Cochez la case suivante pour approuver / désapprouver le culte !</label>
-            {{form.status|add_class:"mt-1 focus:border-bright focus:outline-none block  border-red-300 "}}
+         <div class="hidden">
 
-        </div>
-
-          <div>
+              <div>
             <label for="{{ form.date.id_for_label }}" class="block text-sm font-bold text-gray-700">{{ form.date.label }}</label>
-  <input type="date" name="{{ form.date.name }}" id="{{ form.date.id_for_label }}" value="{{ form.date.value|date:'Y-m-d' }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
+  <input type="date" name="{{ form.date.name }}" id="{{ form.date.id_for_label }}" value="{{ form.date.value|date:'Y-m-d' }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
         </div>
+
         <div class="flex flex-col md:flex md:flex-row md:space-x-2">
             <div class="md:flex md:w-1/2 w-full flex flex-col">
                 <label for="{{ form.heure_debut.id_for_label }}" class="block text-sm font-bold text-gray-700">{{ form.heure_debut.label }}</label>
@@ -84,7 +75,6 @@ Culte
             </div>
 
         </div>
-
         <div>
             <label  class="block text-sm font-bold text-gray-700">{{ form.predicateur.label }}</label>
             {{ form.predicateur|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
@@ -96,6 +86,32 @@ Culte
             {{ form.predicateur_visiteur|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
 
         </div>
+        <div>
+            <label  class="block text-sm font-bold text-gray-700">{{ form.nombre_membres.label }}</label>
+            {{ form.nombre_membres|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
+
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-gray-700">{{ form.conducteurs_de_chant.label }}</label>
+            {{ form.conducteurs_de_chant|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
+        </div>
+         <div class="form-group">
+                        <label for="id_diacre"
+                            class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Diacres</label>
+                        <div class="relative">
+                            <select name="diacres" id="id_diacre" multiple="multiple" class="select2 block bg-red-500 w-full">
+        {% for diacre in form.diacres %}
+        {% if diacre.data.value in diacres_selectionnes %}
+        <option value="{{ diacre.data.value }}" selected>{{ diacre.data.label }}</option>
+        {% else %}
+        <option value="{{ diacre.data.value }}">{{ diacre.data.label }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+
+                        </div>
+
+         </div>
 
          <div>
 
@@ -135,25 +151,24 @@ Culte
 
         </div>
 
-          <h1 class="text-4xl font-black text-gray-900 dark:text-white text-center">ADMINISTRATION</h1>
-         <div class="flex flex-col md:flex md:flex-row mb-4 md:space-x-2">
-            <label  class="block text-sm font-bold text-red-700">Cochez la case suivante pour approuver les offrandes !</label>
-            {{form.status_admin|add_class:"mt-1 focus:border-bright focus:outline-none block  border-red-300 "}}
+
+         </div>
+          <div class="flex flex-col md:flex md:flex-row md:space-x-2">
+
+            <div class="md:flex md:w-1/2 w-full flex flex-col">
+               <label  class="block text-sm font-bold text-gray-700">{{ form.nombre_offrandes.label }}</label>
+            {{ form.nombre_offrandes|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
+
+            </div>
+            <div class="md:flex md:w-1/2 w-full flex flex-col">
+                 <label  class="block text-sm font-bold text-gray-700">{{ form.nombre_construction.label }}</label>
+            {{ form.nombre_construction|add_class:"mt-1 focus:border-bright focus:outline-none block w-full sm:text-sm border-gray-300 rounded-md" }}
+
+            </div>
 
         </div>
 
-         <div class=" m-4">
-                <div class="flex flex-col space-y-2 md:flex md:flex md:space-y-0 md:flex-row md:w-full">
-                    <div class="p-8 bg-brightBlue md:flex-col md:w-1/2">
-                        <p class="text-xl font-thin text-gray-900 dark:text-white  mt-0 text-left">{{ form.nombre_offrandes.label }}</p>
-                           <p class="text-4xl font-black text-gray-900 dark:text-white text-center">  {{form.nombre_offrandes.value }} $</p>
-                    </div>
-                    <div class="p-8 bg-brightGreen md:flex-col md:w-1/2">
-                        <p class="text-xl font-thin text-gray-900 dark:text-white    text-right">{{ form.nombre_construction.label }}</p>
-                   <p class="text-4xl font-black text-gray-900 dark:text-white text-center">{{ form.nombre_construction.value }} $</p>
-                    </div>
-                </div>
-            </div>
+
 
 
 
@@ -161,7 +176,7 @@ Culte
 
     <div class="col-span-1 sm:col-span-4 mt-4">
         <div class="flex items-center justify-end">
-            <button type="submit"  class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="submit" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Enregistrer
             </button>
         </div>

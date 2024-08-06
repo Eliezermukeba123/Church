@@ -267,7 +267,7 @@ class Culte(models.Model):
     predicateur = models.ForeignKey(Menbres, on_delete=models.CASCADE, verbose_name="Prédicateur", blank=True, null=True)
     predicateur_visiteur = models.CharField(max_length=100, blank=True, null=True, verbose_name="Prédicateur visiteur")
     nombre_membres = models.PositiveIntegerField(verbose_name="Effectif Total",blank=True,default=0)
-    nombre_offrandes = models.FloatField(verbose_name="Offrande Régulier",blank=True,default=0.0)
+    nombre_offrandes = models.FloatField(verbose_name="Offrande Régulière",blank=True,default=0.0)
     nombre_construction = models.FloatField(verbose_name="Offrande de Construction",blank=True,default=0.0)
     communication = RichTextField(verbose_name="Communiqué",blank=True,null=True)
     temoignages_du_jour = RichTextField(verbose_name="Témoignage",blank=True,null=True)
@@ -278,6 +278,7 @@ class Culte(models.Model):
     diacres = models.ManyToManyField(Menbres, related_name='Diacres', blank=True)
     conducteurs_de_chant = models.CharField(max_length=200,blank=True)
     status = models.BooleanField(blank=True,default=0)
+    status_admin = models.BooleanField(blank=True,default=0)
 
     def __str__(self):
         return f"{self.date}"

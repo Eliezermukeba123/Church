@@ -6,68 +6,15 @@ Page d'acceuil
 
 
 <div class="bg-slate-200 flex h-screen">
-    {% include 'includes/asise.html' %}
+    {% include 'includes/admin/asise.html' %}
     <div class="flex h-full w-full flex-col">
-        {% include 'includes/nav.html' with current_page='dahsh' %}
+        {% include 'includes/admin/nav.html' %}
         <!-- Main -->
     <div class="h-full overflow-hidden">
       <main id="dashboard-main" class="h-[calc(100vh-10rem)] overflow-auto px-4 py-10">
         <!-- Put your content inside of the <main/> tag -->
-          <div class="bg-gray-100">
-          <div class="grid grid-cols-1 py-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4 ">
-              <div class=" relative rounded-xl bg-white p-10 shadow-md">
-                  <div class="absolute top-2 left-2">
-                            <!-- Icône en haut à gauche -->
-                              <div class="flex flex-row space-x-2">
-                                  <i class="fa-solid fa-users fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
-                              <h1 class="font-serif">Total Menbres</h1>
-                              </div>
-
-
-
-                          </div>
-                  <div class="flex items-center justify-center">
-                            <!-- Nombre au milieu -->
-                            <span class="text-2xl font-bold font-sans">{{membres}}</span>
-                          </div>
-
-
-              </div>
-              <div class=" relative rounded-xl bg-white p-10 shadow-md">
-                  <div class="absolute top-2 left-2">
-                            <!-- Icône en haut à gauche -->
-                              <div class="flex flex-row space-x-2">
-
-                                  <i class="fa-solid fa-calendar-days fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
-                              <h1 class="font-serif">Dîme</h1>
-                              </div>
-
-
-
-                          </div>
-                  <div class="flex items-center justify-center">
-                            <!-- Nombre au milieu -->
-                            <span class="text-2xl font-bold font-sans">0 $</span>
-                          </div>
-
-              </div>
-              <div class=" relative rounded-xl bg-white p-10 shadow-md">
-                  <div class="absolute top-2 left-2">
-                            <!-- Icône en haut à gauche -->
-                              <div class="flex flex-row space-x-2">
-                                  <i class="fa-solid fa-money-check-dollar fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
-                              <h1 class="font-serif">Off. Construction</h1>
-                              </div>
-
-
-
-                          </div>
-                  <div class="flex items-center justify-center">
-                            <!-- Nombre au milieu -->
-                            <span class="text-2xl font-bold font-sans">{{offrande_const}} $</span>
-                          </div>
-
-              </div>
+          <div class="bg-gray-100 pb-4">
+          <div class="grid grid-cols-1 py-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 m-4 ">
               <div class=" relative rounded-xl bg-white p-10 shadow-md">
                   <div class="absolute top-2 left-2">
                             <!-- Icône en haut à gauche -->
@@ -81,16 +28,34 @@ Page d'acceuil
                           </div>
                   <div class="flex items-center justify-center">
                             <!-- Nombre au milieu -->
-
                             <span class="text-2xl font-bold font-sans">{{offrande}} $</span>
+                          </div>
 
+
+              </div>
+              <div class=" relative rounded-xl bg-white p-10 shadow-md">
+                  <div class="absolute top-2 left-2">
+                            <!-- Icône en haut à gauche -->
+                              <div class="flex flex-row space-x-2">
+
+                                  <i class="fa-solid fa-money-check-dollar fa-xl icon icon-lg icon-shape" style="color: #0fd4f5;"></i>
+                              <h1 class="font-serif">Off. Construction</h1>
+                              </div>
+
+
+
+                          </div>
+                  <div class="flex items-center justify-center">
+                            <!-- Nombre au milieu -->
+                            <span class="text-2xl font-bold font-sans">{{offrande_const}} $</span>
                           </div>
 
 
               </div>
 
+
             </div>
-          <div class="flex  pb-4  flex-wrap gap-x-4 gap-y-4 m-4">
+          <!--<div class="flex  flex-wrap gap-x-4 gap-y-4 m-4">
                <div class=" lg:w-96 rounded-xl bg-white p-10 shadow-md md:w-full sm:w-full">
 
 
@@ -99,7 +64,7 @@ Page d'acceuil
     <div id="hs-pie-chart" data-series-homme="{{pourcentage_homme}}"
      data-series-femme="{{pourcentage_femme}}" ></div>
 
-    <!-- Legend Indicator -->
+
     <div class="flex justify-center sm:justify-end items-center gap-x-4 mt-3 sm:mt-6">
       <div class="inline-flex items-center">
         <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
@@ -113,51 +78,44 @@ Page d'acceuil
           Femmes
         </span>
       </div>
-   <!--   <div class="inline-flex items-center">
+     <div class="inline-flex items-center">
         <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
         <span class="text-[13px] text-gray-600 dark:text-neutral-400">
           Others
         </span>
-      </div>-->
+      </div>
     </div>
-    <!-- End Legend Indicator -->
+
   </div>
 </div>
 
 
                </div>
-               <div class=" lg:w-3/5 rounded-xl bg-white p-10 shadow-md sm:w-full  md:w-full">
-                   <!-- Legend Indicator -->
+               <div class=" lg:w-3/5 rounded-xl bg-white p-10 shadow-md sm:w-full  md:w-full" >
+
 <div class="flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6 ">
   <div class="inline-flex items-center">
     <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
     <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-      Effectif mensuel
-    </span>
-  </div>
-  <div class="inline-flex items-center">
-    <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
-    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-      Offrande Mensuel
+      Effectif Mensuel
     </span>
   </div>
 </div>
-<!-- End Legend Indicator -->
+
 
 <div id="hs-multiple-bar-charts"  data-series-January="{{January}}"  data-series-February="{{February}}" data-series-March="{{March}}"
      data-series-April="{{April}}" data-series-May="{{May}}" data-series-June="{{June}}"
      data-series-July="{{July}}" data-series-August="{{August}}" data-series-September="{{September}}"
      data-series-October="{{October}}" data-series-November="{{November}}" data-series-December="{{December}}"
-     data-series-Ja="{{JanuaryO}}"  data-series-Feb="{{FebruaryO}}" data-series-Mar="{{MarchO}}"
-     data-series-Apr="{{AprilO}}" data-series-Ma="{{MayO}}" data-series-Jun="{{JuneO}}"
-     data-series-Jul="{{JulyO}}" data-series-Aug="{{AugustO}}" data-series-Sept="{{SeptemberO}}"
-     data-series-Oct="{{OctoberO}}" data-series-Nov="{{NovemberO}}" data-series-Dec="{{DecemberO}}"></div>
+
+
+></div>
                </div>
-
-          </div>
+              <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+               <div class=" h-24 w-full rounded-xl bg-white p-10 shadow-md"></div>
+          </div>-->
      </div>
-
-
       </main>
     </div>
     <!-- /Main -->
@@ -193,19 +151,6 @@ Page d'acceuil
     const seriesOctober = parseFloat(chartElement1.dataset.seriesOctober);
     const seriesNovember = parseFloat(chartElement1.dataset.seriesNovember);
     const seriesDecember = parseFloat(chartElement1.dataset.seriesDecember);
-
-    const seriesJa = parseFloat(chartElement1.dataset.seriesJa);
-    const seriesFeb = parseFloat(chartElement1.dataset.seriesFeb);
-    const seriesMar = parseFloat(chartElement1.dataset.seriesMar);
-    const seriesApr = parseFloat(chartElement1.dataset.seriesApr);
-    const seriesMa = parseFloat(chartElement1.dataset.seriesMa);
-    const seriesJun = parseFloat(chartElement1.dataset.seriesJun);
-    const seriesJul = parseFloat(chartElement1.dataset.seriesJul);
-    const seriesAug = parseFloat(chartElement1.dataset.seriesAug);
-    const seriesSept = parseFloat(chartElement1.dataset.seriesSept);
-    const seriesOct = parseFloat(chartElement1.dataset.seriesOct);
-    const seriesNov = parseFloat(chartElement1.dataset.seriesNov);
-    const seriesDec = parseFloat(chartElement1.dataset.seriesDec);
       buildChart('#hs-multiple-bar-charts', (mode) => ({
         chart: {
           type: 'bar',
@@ -221,10 +166,7 @@ Page d'acceuil
           {
             name: 'Membres',
             data: [seriesJanuary, seriesFebruary, seriesMarch, seriesApril, seriesMay, seriesJune, seriesJuly, seriesAugust,seriesSeptember, seriesOctober, seriesNovember, seriesDecember]
-          }, {
-            name: 'Offrande Mensuel',
-            data: [seriesJa, seriesFeb, seriesMar, seriesApr, seriesMa, seriesJun, seriesJul, seriesAug,seriesSept, seriesOct, seriesNov, seriesDec]
-          }
+          },
         ],
         plotOptions: {
           bar: {
@@ -303,7 +245,7 @@ Page d'acceuil
         },
         tooltip: {
           y: {
-            formatter: (value) => `$${value >= 100000 ? `${value / 100000}00` : value}`
+            formatter: (value) => `$${value >= 100000 ? `${value / 100000}` : value}`
           },
           custom: function (props) {
             const { categories } = props.ctx.opts.xaxis;
@@ -356,7 +298,7 @@ Page d'acceuil
                   fontFamily: 'Inter, ui-sans-serif',
                   fontWeight: 400
                 },
-                formatter: (value) => value >= 100000 ? `${value / 100000}00` : value
+                formatter: (value) => value >= 100000 ? `${value / 100000}` : value
               }
             },
           },
@@ -403,6 +345,8 @@ Page d'acceuil
     })();
   });
 </script>
+
+
 <script>
   window.addEventListener('load', () => {
     // Apex Pie Chart

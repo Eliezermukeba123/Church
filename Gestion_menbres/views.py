@@ -46,6 +46,9 @@ def login_view(request):
                 if user.groups.filter(name='diacre').exists():
                     login(request, user)
                     return redirect('gestMenb:Diacre_view')
+                if user.groups.filter(name='administrateur').exists():
+                    login(request, user)
+                    return redirect('gestMenb:Admin_view')
             else:
                 messages.error(request, "Les informations d'identification sont incorrectes.")
 
@@ -97,8 +100,10 @@ def Page_acceuil(request):
 @login_required(login_url='gestMenb:login_view')
 def Pasteur_view(request):
     membres = Menbres.objects.all().count()
-    culte = Culte.objects.latest('id')
-    offrande  = culte.nombre_offrandes
+    culte= Culte.objects.latest('id')
+    offrande = culte.nombre_offrandes
+    offrande_const  = culte.nombre_construction
+
     actuel = timezone.now()
     current_year = actuel.year
     current_month = actuel.month
@@ -131,7 +136,7 @@ def Pasteur_view(request):
                                                               "MayO": MayO, "JuneO": JuneO, "JulyO": JulyO, "AugustO": AugustO,
                                                               "SeptemberO": SeptemberO, "OctoberO": OctoberO,
                                                               "NovemberO": NovemberO, "DecemberO": DecemberO,
-                                                              "offrande" : offrande
+                                                              "offrande" : offrande, "offrande_const":offrande_const
                                                               })
 
 

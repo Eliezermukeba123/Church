@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}
+Culte
+{% endblock %}
+{% block content %}
+
+
+<div class="bg-slate-200 flex h-screen">
+     {% include 'includes/admin/culte.html' %}
+    <div class="flex h-full w-full flex-col">
+        {% include 'includes/admin/nav.html' %}
+        <!-- Main -->
+        <div class="h-full overflow-auto ">
+
+            <div class="flex flex-col items-start justify-between  space-y-2 m-4 md:flex md:flex-row md:space-y-0 ">
+
+                <h1 class="font-bold ">{{date_culte}}</h1>
+                <h1 class="font-bold ">{{heure_d}} | {{heure_f}} </h1>
+
+            </div>
+            <div class=" m-4">
+                <h3 class="font-extrabold text-xl mb-4 text-center">OFFRANDES</h3>
+                <div class="flex flex-col space-y-2 md:flex md:flex md:space-y-0 md:flex-row md:w-full">
+                    <div class="p-8 bg-brightBlue md:flex-col md:w-1/2">
+                        <p class="text-xl font-thin text-gray-900 dark:text-white  mt-0 text-left">Régulière</p>
+                           <p class="text-4xl font-black text-gray-900 dark:text-white text-center">{{off_regulier}} $</p>
+                    </div>
+                    <div class="p-8 bg-brightGreen md:flex-col md:w-1/2">
+                        <p class="text-xl font-thin text-gray-900 dark:text-white    text-right">Construction</p>
+                   <p class="text-4xl font-black text-gray-900 dark:text-white text-center">{{off_construction}} $</p>
+                    </div>
+                </div>
+            </div>
+             {% if date_culte >= date_actuelle %}
+        <div class="m-4">
+            <a href="{% url 'gestMenb:Modifier_culte_admin' cle=cle %}" class="select inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Modifier
+            </a>
+        </div>
+                {% endif %}
+
+
+
+
+
+
+
+
+
+    </div>
+    <!-- /Main -->
+    {% include 'includes/footer.html' %}
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript de Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+{% endblock %}

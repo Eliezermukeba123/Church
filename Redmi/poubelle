@@ -1,5 +1,25 @@
+ADMIN DU SYSTEME
+username : eliezer
 mot de passe : AttaElRoi2024
+----------------------------
+Diacre
+username : Dan
+mot de passe : Kabeya2024
 
+-----------------------------
+Pasteur
+username : neville
+mot de passe : MukebaMbunda2
+
+-----------------------------
+Administrateur
+username : Elie
+mot de passe : Mbuyi2024
+
+-----------------------------
+
+
+groups : pasteur, administrateur, diacre
 
 nom obligatoire :
 Login : pasteur, diacre
@@ -52,3 +72,8 @@ droplist for pastor about notifications
             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Déconnexion</a>
         </div>
     </div>
+
+
+
+
+

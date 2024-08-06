@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Gestion_menbres',
     'django_filters',
     'ckeditor',
+    'django_htmx',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'Atta_El_Roi.urls'
