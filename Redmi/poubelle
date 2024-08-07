@@ -23,7 +23,7 @@ groups : pasteur, administrateur, diacre
 
 nom obligatoire :
 Login : pasteur, diacre
-table : Administrateur,Diacre,Prédicateur
+table : Administrateur,Diacre,Prédicateur :Fonction
 
 
 

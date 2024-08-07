@@ -68,7 +68,7 @@ class Menbres(models.Model):
 
     class Meta:
         verbose_name = "Menbre"
-        verbose_name_plural = "Menbres"
+        verbose_name_plural = "Membres"
 
     def __str__(self):
         return f"{self.nom} {self.postnom} {self.prenom}"
